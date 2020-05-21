@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusableInTouchMode="true">
+
+    <TextView
+        android:id="@+id/tvProduto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="left|center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/etQuantidade"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etQuantidade"
+        android:layout_width="47dp"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:inputType="number|textPersonName"
+        android:numeric="decimal"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivSendLTS"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivSendLTS"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioGroup
+            android:id="@+id/rgUnidade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioButton
+                android:id="@+id/rbUn"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:checked="false"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:text="Un"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rbMl"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:text="ml"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rbKg"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:text="Kg"
+                android:textSize="12sp" />
+
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="40dp"
+    android:background="@drawable/border2_combine"
+    >
+
+    icon
+<ImageView
+android:id="@+id/item_icon"
+android:layout_width="64dp"
+android:layout_height="64dp"
+android:layout_alignParentLeft="true"
+android:layout_marginLeft="8dp"
+android:layout_marginRight="8dp"
+android:layout_marginTop="1dp"
+android:layout_marginBottom="1dp"
+android:contentDescription="icon"
+android:src="@drawable/ic_launcher"
+    />
+
+    title
+<TextView
+android:id="@+id/item_title"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:layout_toRightOf="@+id/item_icon"
+android:layout_alignBaseline="@+id/item_icon"
+android:textColor="@android:color/darker_gray"
+android:layout_marginLeft="8dp"
+android:layout_marginRight="8dp"
+android:layout_marginTop="8dp"
+android:textSize="22dp" />
+
+    </RelativeLayout>
+-->
