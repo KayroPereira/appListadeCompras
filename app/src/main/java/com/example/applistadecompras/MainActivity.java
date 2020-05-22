@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         AbasAdapter adapter = new AbasAdapter( getSupportFragmentManager() );
-        adapter.adicionar( new tela1() , "Primeira Aba");
-        adapter.adicionar( new tela2(), "Segunda Aba");
+        adapter.adicionar( new SqliteActivity() , "Primeira Aba");
+        adapter.adicionar( new tela1(), "Segunda Aba");
         adapter.adicionar( new tela3(), "Terceira Aba");
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.vp1);
@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
-
 /*
         RecyclerView rv = (RecyclerView) findViewById(R.id.rv);
         //rv.setLayoutManager(new LinearLayoutManager(this));
