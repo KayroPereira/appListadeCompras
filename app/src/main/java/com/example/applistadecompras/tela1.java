@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class tela1 extends Fragment {
 
-    private ArrayList<Produto> produtos;
+    private ArrayList<DBProduto> produtos;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class tela1 extends Fragment {
         RecyclerView rv = view.findViewById(R.id.rv);
         //rv.setLayoutManager(new LinearLayoutManager(this));
 
-        produtos = new Produto().createContactsList(20);
+        produtos = new DBProduto().createContactsList(20);
 
         //ProdutoAdapter adapter = new ProdutoAdapter(produtos, this);
         ProdutoAdapter adapter = new ProdutoAdapter(produtos, getContext());

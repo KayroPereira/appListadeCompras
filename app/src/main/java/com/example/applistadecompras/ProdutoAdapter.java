@@ -18,10 +18,12 @@ import java.util.List;
 
 public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.ViewHolder> {
 
-private List<Produto> mProdutos;
+//private List<Produto> mProdutos;
+private List<DBProduto> mProdutos;
 private Context context;
 
-public ProdutoAdapter(List<Produto> produtos, Context context) {
+//public ProdutoAdapter(List<Produto> produtos, Context context) {
+public ProdutoAdapter(List<DBProduto> produtos, Context context) {
         this.mProdutos = produtos;
         this.context = context;
     }
@@ -62,6 +64,7 @@ public ProdutoAdapter(List<Produto> produtos, Context context) {
             //final int currentPosition = getAdapterPosition();
 
             if (btn.isChecked()){
+                //mProdutos.get(getAdapterPosition()).setUnidade(radioId);
                 mProdutos.get(getAdapterPosition()).setUnidade(radioId);
             }
         }
@@ -72,11 +75,19 @@ public ProdutoAdapter(List<Produto> produtos, Context context) {
             if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
                 //User user = users.get(position);
                 // We can access the data within the views
+                /*
                 Produto pd = new Produto();
                 pd.setmName(mProdutos.get(position).getmName());
                 pd.setQuantidade(mProdutos.get(position).getQuantidade());
                 pd.setUnidade(mProdutos.get(position).getUnidade());
                 Toast.makeText(view.getContext(), pd.getmName() + " " + pd.getQuantidade() + (pd.getUnidade() == 0 ? "Un" : pd.getUnidade() == 1 ? "ml" : "Kg"), Toast.LENGTH_SHORT).show();
+                 */
+
+                DBProduto pd = new DBProduto();
+                pd.setNome(mProdutos.get(position).getNome());
+                pd.setQuantidade(mProdutos.get(position).getQuantidade());
+                pd.setUnidade(mProdutos.get(position).getUnidade());
+                Toast.makeText(view.getContext(), pd.getNome() + " " + pd.getQuantidade() + (pd.getUnidade() == 0 ? "Un" : pd.getUnidade() == 1 ? "ml" : "Kg"), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -97,21 +108,23 @@ public ProdutoAdapter(List<Produto> produtos, Context context) {
     }
 
     private void printLog(){
-        for (Produto temp : mProdutos)
-            Log.println(Log.VERBOSE, "Inform", "Produto: " + temp.getmName() + " - Qnt: " + temp.getQuantidade() + " - Un: " + temp.getUnidade());
+        //for (Produto temp : mProdutos)
+        for (DBProduto temp : mProdutos)
+            Log.println(Log.VERBOSE, "Inform", "Produto: " + temp.getNome() + " - Qnt: " + temp.getQuantidade() + " - Un: " + temp.getUnidade());
     }
 
     @Override
     public void onBindViewHolder(ProdutoAdapter.ViewHolder viewHolder, int position) {
 
         ViewHolder hold = (ViewHolder) viewHolder;
-        Produto produtos = mProdutos.get(position);
+        //Produto produtos = mProdutos.get(position);
+        DBProduto produtos = mProdutos.get(position);
 
         viewHolder.setIsRecyclable(false);
 
         //getView(position, hold.itemView, getAdapterPosition());
 
-        hold.tvProduto.setText(produtos.getmName());
+        hold.tvProduto.setText(produtos.getNome());
         hold.etQuantidade.setText(produtos.getQuantidade()+"");
 
         switch (produtos.getUnidade()){

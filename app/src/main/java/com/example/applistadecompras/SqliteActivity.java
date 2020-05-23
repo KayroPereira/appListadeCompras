@@ -46,10 +46,12 @@ public class SqliteActivity extends Fragment {
 
                 //pegando os valores
                 int categoria = Integer.parseInt(etCategoria.getText().toString());
-                String produto = etProduto.getText().toString();
+                String produto = etProduto.getText().toString().toLowerCase();
                 float quantidade = Float.parseFloat(etQuantidade.getText().toString());
                 boolean status = cbStatus.isChecked();
                 int unidade = rbCheck.isChecked() ? 0 : ((RadioButton) rgUnidade.getChildAt(1)).isChecked() ? 1 : 2;
+
+                produto = produto.substring(0,1).toUpperCase().concat(produto.substring(1));
 
                 //salvando os dados
                 //ProdutoDAO dao = new ProdutoDAO(getBaseContext());

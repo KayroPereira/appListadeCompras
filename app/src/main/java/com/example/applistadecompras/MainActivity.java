@@ -20,17 +20,20 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.none_night
     };
 
+    private ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AbasAdapter adapter = new AbasAdapter( getSupportFragmentManager() );
-        adapter.adicionar( new SqliteActivity() , "Primeira Aba");
-        adapter.adicionar( new tela1(), "Segunda Aba");
-        adapter.adicionar( new tela3(), "Terceira Aba");
+        AbasAdapter adapter = new AbasAdapter(getSupportFragmentManager());
+        adapter.adicionar(new DashBoard(), "Menu");
+        adapter.adicionar( new tela1(), "Teste");
+        adapter.adicionar(new SqliteActivity() , "Cadastro");
+        //adapter.adicionar(new tela2(), "Lista");
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.vp1);
+        viewPager = (ViewPager) findViewById(R.id.vp1);
         viewPager.setAdapter(adapter);
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -48,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
         //rv.setItemViewCacheSize(produtos.size());
  */
 
+    }
+
+    public void setCurrentItemPager(int id){
+        viewPager.setCurrentItem(id); // viewPager = substitua pelo seu viewPAger
     }
 
     private void setupTabIcons() {
