@@ -21,15 +21,17 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private ViewPager viewPager;
+    private AbasAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AbasAdapter adapter = new AbasAdapter(getSupportFragmentManager());
-        adapter.adicionar(new DashBoard(), "Menu");
+        adapter = new AbasAdapter(getSupportFragmentManager());
         adapter.adicionar( new tela1(), "Teste");
+        //adapter.adicionar(new DashBoard(), "Menu");
+        adapter.adicionar(new FragClear(), "DashBoard");
         adapter.adicionar(new SqliteActivity() , "Cadastro");
         //adapter.adicionar(new tela2(), "Lista");
 
@@ -51,10 +53,6 @@ public class MainActivity extends AppCompatActivity {
         //rv.setItemViewCacheSize(produtos.size());
  */
 
-    }
-
-    public void setCurrentItemPager(int id){
-        viewPager.setCurrentItem(id); // viewPager = substitua pelo seu viewPAger
     }
 
     private void setupTabIcons() {
