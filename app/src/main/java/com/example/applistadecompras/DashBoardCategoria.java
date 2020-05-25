@@ -4,14 +4,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 
-public class DashBoard extends Fragment {
+public class DashBoardCategoria extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -21,7 +22,7 @@ public class DashBoard extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public DashBoard() {
+    public DashBoardCategoria() {
         // Required empty public constructor
     }
 
@@ -34,8 +35,8 @@ public class DashBoard extends Fragment {
      * @return A new instance of fragment Frag1.
      */
     // TODO: Rename and change types and number of parameters
-    public static DashBoard newInstance(String param1, String param2) {
-        DashBoard fragment = new DashBoard();
+    public static DashBoardCategoria newInstance(String param1, String param2) {
+        DashBoardCategoria fragment = new DashBoardCategoria();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -52,13 +53,47 @@ public class DashBoard extends Fragment {
         }
     }
 
-    private Button btTela2DB;
+    void handler(View v){
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.dash_board, container, false);
+        View view = inflater.inflate(R.layout.dash_board_categoria, container, false);
 
+        view.setOnClickListener(this::handler);
+
+        ConstantsApp constantsApp = new ConstantsApp();
+        ConstraintLayout fml = (ConstraintLayout) ((FrameLayout) view).getChildAt(0);
+
+        int categoriaItem = 0;
+        for (int i = 0; i < fml.getChildCount(); i++) {
+
+            View comp = fml.getChildAt(i);
+
+            if (comp instanceof ConstraintLayout) {
+                int cont = 0;
+                for (int item = 0; item < ((ConstraintLayout) comp).getChildCount(); item++) {
+                    View vTemp = ((ConstraintLayout) comp).getChildAt(item);
+
+                    if (vTemp instanceof TextView) {
+                        ((TextView) vTemp).setText(constantsApp.getNameCategoryItem(categoriaItem));
+                        vTemp.setTag(categoriaItem);
+                        cont++;
+                    }
+
+                    if (vTemp instanceof ImageView) {
+                        ((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("rain", "drawable", "com.example.applistadecompras"));
+                        vTemp.setTag(categoriaItem);
+                        cont++;
+                    }
+
+                    if (cont == 2)
+                        categoriaItem++;
+                }
+            }
+        }
+/*
         btTela2DB = view.findViewById(R.id.btTela2DB);
 
         btTela2DB.setOnClickListener(new View.OnClickListener() {
@@ -67,11 +102,11 @@ public class DashBoard extends Fragment {
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frmLClear, new tela2()).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.frmLClear, new frag_categoria(1)).addToBackStack(null).commit();
             }
         });
 
-        //return inflater.inflate(R.layout.fragment_frag1, container, false);
+ */
         return view;
     }
 }
@@ -90,22 +125,22 @@ public class DashBoard extends Fragment {
 /*
 
 
-public class DashBoard extends Fragment {
+public class DashBoardCategoria extends Fragment {
 
     private Button btTela2DB;
     private FragmentManager fragmentTransaction;
-    private tela2 testeFragment;
+    private frag_categoria testeFragment;
     private FragmentTransaction transaction;
 
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.dash_board, container, false);
+        //View view = inflater.inflate(R.layout.dash_board_categoria, container, false);
         //FragmentManager fm = view.getSupportFragmentManager();
 
-        View view = inflater.inflate(R.layout.dash_board, container, false);
+        View view = inflater.inflate(R.layout.dash_board_categoria, container, false);
         //FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
         //FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.replace(R.id.frmLClear, new tela2()).commit();
+        //fragmentTransaction.replace(R.id.frmLClear, new frag_categoria()).commit();
 
 
         btTela2DB = view.findViewById(R.id.btTela2DB);
@@ -115,7 +150,7 @@ public class DashBoard extends Fragment {
             public void onClick(View view) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frmL1, new tela2()).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.frmL1, new frag_categoria()).addToBackStack(null).commit();
             }
         });
 
@@ -138,7 +173,7 @@ public class DashBoard extends Fragment {
 
         transaction = fragmentTransaction.beginTransaction();
         /*
-        testeFragment = new tela2();
+        testeFragment = new frag_categoria();
         transaction = fragmentTransaction.beginTransaction();
         */
 /*
@@ -199,7 +234,7 @@ public class DashBoard extends Fragment {
                 */
                 /*
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.clDashboard, new tela2(), "teste");
+                ft.replace(R.id.clDashboard, new frag_categoria(), "teste");
                 ft.commit();
 
                  */
@@ -209,27 +244,27 @@ public class DashBoard extends Fragment {
 
                 if(mainActivity instanceof MainActivity)
                     ((MainActivity) mainActivity).setCurrentItemPager(R.id.clTela2_1);
-                    //((MainActivity) mainActivity).setCurrentItemPager(R.layout.tela2);
+                    //((MainActivity) mainActivity).setCurrentItemPager(R.layout.frag_categoria);
 
                 */
                 //if(v.getId() == btCone.getId()){
                 //Toast.makeText(getActivity(),"TESTEBUTTON",Toast.LENGTH_SHORT).show();
 
-                //testeFragment = (tela2)fragmentTransaction.findFragmentById(R.id.clTela2_1);
+                //testeFragment = (frag_categoria)fragmentTransaction.findFragmentById(R.id.clTela2_1);
 
                 /*
-                testeFragment = (tela2)fragmentTransaction.findFragmentById(R.id.clTela2_1);
+                testeFragment = (frag_categoria)fragmentTransaction.findFragmentById(R.id.clTela2_1);
 
                 if(testeFragment == null)
-                    testeFragment = new tela2();
+                    testeFragment = new frag_categoria();
 
                  */
 
-                //testeFragment = new tela2();
+                //testeFragment = new frag_categoria();
 
-                //transaction.hide(DashBoard());
+                //transaction.hide(DashBoardCategoria());
 
-                //tela2 testeFragment = new tela2();
+                //frag_categoria testeFragment = new frag_categoria();
 
                 //transaction.replace(R.id.container_fragment, testeFragment);
                 //transaction.replace(R.id.clTela2, testeFragment);
@@ -238,7 +273,7 @@ public class DashBoard extends Fragment {
                 //transaction.replace(R.id.clTela2_1, testeFragment);
                 //transaction.replace(R.id.clMain, testeFragment);
 
-                //transaction.hide(DashBoard());
+                //transaction.hide(DashBoardCategoria());
 
                 //transaction.replace(R.id.clDashboard, testeFragment, testeFragment.getTag());
 

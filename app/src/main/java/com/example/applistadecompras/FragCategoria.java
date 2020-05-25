@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class tela2 extends Fragment {
+public class FragCategoria extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -23,27 +24,32 @@ public class tela2 extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public tela2() {
-        // Required empty public constructor
+    private int categoria;
+
+    public FragCategoria(int categoria) {
+        this.categoria = categoria;
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param //param1 Parameter 1.
+     * @param //param2 Parameter 2.
      * @return A new instance of fragment Frag4.
      */
+    /*
     // TODO: Rename and change types and number of parameters
-    public static tela2 newInstance(String param1, String param2) {
-        tela2 fragment = new tela2();
+    public static frag_categoria newInstance(String param1, String param2) {
+        frag_categoria fragment = new frag_categoria();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
+
+     */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,21 +62,25 @@ public class tela2 extends Fragment {
 
     private Button btBack;
 
+    private TextView tvCategoriaCTG;
+
     private List<DBProduto> produtos;
     ProdutoAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.tela2, container, false);
+        View view = inflater.inflate(R.layout.frag_categoria, container, false);
 
         btBack = view.findViewById(R.id.btBackT2);
-
+        tvCategoriaCTG = view.findViewById(R.id.tvCategoriaCTG);
         RecyclerView rv = view.findViewById(R.id.rvT2);
+
+        tvCategoriaCTG.setText(new ConstantsApp().getNameCategoryItem(categoria));
 
         ProdutoDAO dao = new ProdutoDAO(getContext());
 
-        produtos = dao.retornarTodos();
+        produtos = dao.getListCategory(categoria);
 
         adapter = new ProdutoAdapter(produtos, getContext());
         rv.setAdapter(adapter);
@@ -89,7 +99,7 @@ public class tela2 extends Fragment {
 
 
 /*
-public class tela2 extends Fragment {
+public class frag_categoria extends Fragment {
 
     private List<DBProduto> produtos;
     ProdutoAdapter adapter;
@@ -97,7 +107,7 @@ public class tela2 extends Fragment {
     private Button btBackT2;
 
     private FragmentManager fragmentTransaction;
-    private DashBoard testeFragment;
+    private DashBoardCategoria testeFragment;
     private FragmentTransaction transaction;
 
     /*
@@ -118,7 +128,7 @@ public class tela2 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tela2, container, false);
+        View view = inflater.inflate(R.layout.frag_categoria, container, false);
 
         btBackT2 = view.findViewById(R.id.btBackT2);
         RecyclerView rv = view.findViewById(R.id.rvT2);
@@ -152,10 +162,10 @@ public class tela2 extends Fragment {
                 /*
                 Toast.makeText(getActivity(),"TESTEBUTTON",Toast.LENGTH_SHORT).show();
 
-                testeFragment = (DashBoard) fragmentTransaction.findFragmentById(R.id.clDashboard);
+                testeFragment = (DashBoardCategoria) fragmentTransaction.findFragmentById(R.id.clDashboard);
 
                 if(testeFragment == null)
-                    testeFragment = new DashBoard();
+                    testeFragment = new DashBoardCategoria();
 
 
                 transaction.replace(R.id.clTela2_1, testeFragment);
@@ -176,8 +186,8 @@ public class tela2 extends Fragment {
                 //getActivity().onBackPressed();
                 /*
                 try {
-                    //tela2.this.finalize();
-                    tela2.this.onDestroy();
+                    //frag_categoria.this.finalize();
+                    frag_categoria.this.onDestroy();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }

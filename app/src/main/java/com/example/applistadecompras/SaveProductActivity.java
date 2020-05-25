@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.snackbar.Snackbar;
 
-//public class SqliteActivity extends AppCompatActivity {
-public class SqliteActivity extends Fragment {
+//public class SaveProductActivity extends AppCompatActivity {
+public class SaveProductActivity extends Fragment {
 
     private ImageView ivSendSQL;
     private View viewMain;
@@ -23,10 +23,10 @@ public class SqliteActivity extends Fragment {
     @Override
     //protected void onCreate(Bundle savedInstanceState) {
         //super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_sqlite);
+        //setContentView(R.layout.activity_save_product);
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        viewMain = inflater.inflate(R.layout.activity_sqlite, container, false);
+        viewMain = inflater.inflate(R.layout.activity_save_product, container, false);
 
         ivSendSQL = (ImageView) viewMain.findViewById(R.id.ivSendSQL);
 
@@ -55,8 +55,9 @@ public class SqliteActivity extends Fragment {
 
                 //salvando os dados
                 //ProdutoDAO dao = new ProdutoDAO(getBaseContext());
-                ProdutoDAO dao = new ProdutoDAO(inflater.getContext());
-                boolean sucesso = dao.salvar(categoria, produto, quantidade, unidade, status);
+                //ProdutoDAO dao = new ProdutoDAO(inflater.getContext());
+                //boolean sucesso = dao.saveItem(categoria, produto, quantidade, unidade, status);
+                boolean sucesso = dao.saveItem(categoria, produto, quantidade, unidade, status);
                 if (sucesso) {
                     //limpa os campos
                     etCategoria.setText("");

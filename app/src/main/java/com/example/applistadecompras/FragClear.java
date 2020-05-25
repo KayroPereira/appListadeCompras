@@ -64,7 +64,7 @@ public class FragClear extends Fragment {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frmLClear, new DashBoard()).commit();
+        fragmentTransaction.replace(R.id.frmLClear, new DashBoardCategoria()).commit();
 
         return view;
     }
