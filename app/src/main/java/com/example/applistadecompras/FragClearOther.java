@@ -12,10 +12,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragClear#newInstance} factory method to
+ * Use the {@link FragClearOther#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragClear extends Fragment {
+public class FragClearOther extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -25,7 +25,7 @@ public class FragClear extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragClear() {
+    public FragClearOther() {
         // Required empty public constructor
     }
 
@@ -38,8 +38,8 @@ public class FragClear extends Fragment {
      * @return A new instance of fragment FragClear.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragClear newInstance(String param1, String param2) {
-        FragClear fragment = new FragClear();
+    public static FragClearOther newInstance(String param1, String param2) {
+        FragClearOther fragment = new FragClearOther();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -58,15 +58,18 @@ public class FragClear extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_frag_clear, container, false);
+        View view = inflater.inflate(R.layout.frag_clear_other, container, false);
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.replace(R.id.frmLClear, DashBoardCategoria.newInstance("0", "0")).commit();
-        //fragmentTransaction.replace(R.id.frmLClear, new DashBoardCategoria(0)).commit();
+        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria(1)).commit();
+        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoriaSave()).commit();
 
-        fragmentTransaction.replace(R.id.frmLClear, new DashBoardCategoria()).commit();
+        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria(1)).commit();
+        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoriaSave()).commit();
+        fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
+        //fragmentTransaction.replace(R.id.frmLClearOther, DashBoardCategoria.newInstance("1", "1")).commit();
 
         return view;
     }

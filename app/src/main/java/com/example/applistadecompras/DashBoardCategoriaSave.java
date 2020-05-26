@@ -1,7 +1,6 @@
 package com.example.applistadecompras;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 
-//public class DashBoardCategoria extends Fragment implements FrameLayout.OnFocusChangeListener {
-//public class DashBoardCategoria extends Fragment implements View.OnLayoutChangeListener {
-//public class DashBoardCategoria extends Fragment implements FrameLayout.OnFocusChangeListener{
-public class DashBoardCategoria extends Fragment{
+public class DashBoardCategoriaSave extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -27,26 +23,24 @@ public class DashBoardCategoria extends Fragment{
     private String mParam2;
 
     private int modo;
-
-    /*
+/*
     public DashBoardCategoria(int modo) {
         this.modo = modo;
         new ConstantsApp().setModoDashBoard(modo);
     }
-    */
+ */
 
-    public DashBoardCategoria() {
+    public DashBoardCategoriaSave() {
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param //param1 Parameter 1.
-     * @param //param2 Parameter 2.
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
      * @return A new instance of fragment Frag1.
      */
-
     /*
     // TODO: Rename and change types and number of parameters
     public static DashBoardCategoria newInstance(String param1, String param2) {
@@ -56,7 +50,16 @@ public class DashBoardCategoria extends Fragment{
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }*/
+    }
+     */
+    public static DashBoardCategoriaSave newInstance(String param1, String param2) {
+        DashBoardCategoriaSave fragment = new DashBoardCategoriaSave();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,31 +70,20 @@ public class DashBoardCategoria extends Fragment{
         }
     }
 
-    void handler(View v){
+    void handler1(View v){
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.dash_board_categoria, container, false);
+        View view = inflater.inflate(R.layout.dash_board_categoria_save, container, false);
 
-        view.setOnClickListener(this::handler);
-        Log.println(Log.VERBOSE, "Teste", "Modo: " + new ConstantsApp().getModoDashBoard() + " Tag: " + view.getTag());
+        //view.setOnClickListener(this::ivClickedCpDB_S);
 
-        //view.setOnClickListener(this::ivClickedCpDB);
-        //FrameLayout frmL1 = (FrameLayout) view.findViewById(R.id.frmL1);
-        //frmL1.setOnFocusChangeListener(this);
+        view.setOnClickListener(this::handler1);
+        //view.setOnClickListener(this.ivClickedCpDB_S());
 
-        //view.addOnLayoutChangeListener(this);
-        //view.setOnFocusChangeListener(this);
-/*
-        frmL1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                Log.println(Log.VERBOSE, "Teste", "Modo: " + new ConstantsApp().getModoDashBoard());
-            }
-        });
-*/
         ConstantsApp constantsApp = new ConstantsApp();
         ConstraintLayout fml = (ConstraintLayout) ((FrameLayout) view).getChildAt(0);
 
@@ -138,26 +130,7 @@ public class DashBoardCategoria extends Fragment{
  */
         return view;
     }
-/*
-    @Override
-    public void onFocusChange(View view, boolean b) {
-        Log.println(Log.VERBOSE, "Teste", "Modo: " + new ConstantsApp().getModoDashBoard());
-    }*/
-
-/*
-    @Override
-    public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
-        Log.println(Log.VERBOSE, "Teste", "Modo: " + new ConstantsApp().getModoDashBoard() + " Par: " + mParam1 + " Modo Int: " + modo);
-    }*/
-
-/*
-    @Override
-    public void onFocusChange(View view, boolean b) {
-        Log.println(Log.VERBOSE, "Teste", "Modo: " + new ConstantsApp().getModoDashBoard() + " Modo Int: " + modo);
-    }
- */
 }
-
 
 
 

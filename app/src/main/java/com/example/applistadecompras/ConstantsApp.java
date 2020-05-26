@@ -6,6 +6,16 @@ public class ConstantsApp {
 
     final String pathDespensa = "lstCompras/despensa";
 
+    private int modoDashBoard = 0;
+
+    public int getModoDashBoard() {
+        return modoDashBoard;
+    }
+
+    public void setModoDashBoard(int modoDashBoard) {
+        this.modoDashBoard = modoDashBoard;
+    }
+
     public String getPathDespensa() {
         return pathDespensa;
     }
