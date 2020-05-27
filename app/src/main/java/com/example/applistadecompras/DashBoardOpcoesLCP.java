@@ -12,7 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 
-public class DashBoardCategoriaSave extends Fragment{
+public class DashBoardOpcoesLCP extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +30,7 @@ public class DashBoardCategoriaSave extends Fragment{
     }
  */
 
-    public DashBoardCategoriaSave() {
+    public DashBoardOpcoesLCP() {
     }
 
     /**
@@ -52,8 +52,8 @@ public class DashBoardCategoriaSave extends Fragment{
         return fragment;
     }
      */
-    public static DashBoardCategoriaSave newInstance(String param1, String param2) {
-        DashBoardCategoriaSave fragment = new DashBoardCategoriaSave();
+    public static DashBoardOpcoesLCP newInstance(String param1, String param2) {
+        DashBoardOpcoesLCP fragment = new DashBoardOpcoesLCP();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -77,7 +77,7 @@ public class DashBoardCategoriaSave extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.dash_board_categoria_save, container, false);
+        View view = inflater.inflate(R.layout.dash_board_opcoes_lcp, container, false);
 
         //view.setOnClickListener(this::ivClickedCpDB_S);
 
@@ -98,13 +98,17 @@ public class DashBoardCategoriaSave extends Fragment{
                     View vTemp = ((ConstraintLayout) comp).getChildAt(item);
 
                     if (vTemp instanceof TextView) {
-                        ((TextView) vTemp).setText(constantsApp.getNameCategoryItem(categoriaItem));
+                        //((TextView) vTemp).setText(constantsApp.getNameCategoryItem(categoriaItem));
+                        //provisório
+                        if (categoriaItem > 0)
+                            ((TextView) vTemp).setText("temp");
                         vTemp.setTag(categoriaItem);
                         cont++;
                     }
 
                     if (vTemp instanceof ImageView) {
-                        ((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("rain", "drawable", "com.example.applistadecompras"));
+                        //((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("none_day", "drawable", "com.example.applistadecompras"));
+                        ((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("none_day", "drawable", getActivity().getPackageName()));
                         vTemp.setTag(categoriaItem);
                         cont++;
                     }

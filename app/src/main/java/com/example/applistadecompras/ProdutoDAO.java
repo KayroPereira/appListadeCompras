@@ -3,6 +3,7 @@ package com.example.applistadecompras;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,41 @@ import java.util.List;
 public class ProdutoDAO {
 
     private final String TABLE_PRODUTO = "Produto";
+    private final String TABLE_UP_PRODUTO = "UpProduto";
+
     private DbGateway gw;
+
+    public boolean deleteProduto(){
+        return gw.getDatabase().delete(TABLE_PRODUTO, "", new String[]{}) > 0;
+    }
+
+    public boolean updateFlagProduto(int flag){
+        ContentValues cv = new ContentValues();
+        cv.put("upFlag", flag);
+        //return gw.getDatabase().update(TABLE_UP_PRODUTO, cv, "upFlag=1", new String[]{1 + ""}) > 0;
+        return gw.getDatabase().update(TABLE_UP_PRODUTO, cv, "", new String[]{}) > 0;
+    }
+
+    public boolean inputFlagProduto(int flag){
+        ContentValues cv = new ContentValues();
+        cv.put("upFlag", flag);
+        return gw.getDatabase().insert(TABLE_UP_PRODUTO, null, cv) > 0;
+    }
+
+    public int getFlagProduto(){
+        int upFlag = -1;
+
+        try {
+            Cursor cursor = gw.getDatabase().rawQuery("SELECT * FROM " + TABLE_UP_PRODUTO, null);
+            while (cursor.moveToNext()) {
+                upFlag = cursor.getInt(cursor.getColumnIndex("upFlag"));
+            }
+            cursor.close();
+        }catch (Exception e){
+            Log.println(Log.VERBOSE, "Teste: ", " Ex: " + e);
+        }
+        return upFlag;
+    }
 
     public ProdutoDAO(Context ctx){
         gw = DbGateway.getInstance(ctx);

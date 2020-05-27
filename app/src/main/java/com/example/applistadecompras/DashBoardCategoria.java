@@ -1,7 +1,6 @@
 package com.example.applistadecompras;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +75,7 @@ public class DashBoardCategoria extends Fragment{
         View view = inflater.inflate(R.layout.dash_board_categoria, container, false);
 
         view.setOnClickListener(this::handler);
-        Log.println(Log.VERBOSE, "Teste", "Modo: " + new ConstantsApp().getModoDashBoard() + " Tag: " + view.getTag());
+        //Log.println(Log.VERBOSE, "Teste", "Modo: " + new ConstantsApp().getModoDashBoard() + " Tag: " + view.getTag());
 
         //view.setOnClickListener(this::ivClickedCpDB);
         //FrameLayout frmL1 = (FrameLayout) view.findViewById(R.id.frmL1);
@@ -112,7 +111,7 @@ public class DashBoardCategoria extends Fragment{
                     }
 
                     if (vTemp instanceof ImageView) {
-                        ((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("rain", "drawable", "com.example.applistadecompras"));
+                        ((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("rain", "drawable", getActivity().getPackageName()));
                         vTemp.setTag(categoriaItem);
                         cont++;
                     }

@@ -61,12 +61,12 @@ public class FragClear extends Fragment {
         View view = inflater.inflate(R.layout.fragment_frag_clear, container, false);
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frmLClear, new DashBoardCategoria()).commit();
+
         //fragmentTransaction.replace(R.id.frmLClear, DashBoardCategoria.newInstance("0", "0")).commit();
         //fragmentTransaction.replace(R.id.frmLClear, new DashBoardCategoria(0)).commit();
 
-        fragmentTransaction.replace(R.id.frmLClear, new DashBoardCategoria()).commit();
 
         return view;
     }

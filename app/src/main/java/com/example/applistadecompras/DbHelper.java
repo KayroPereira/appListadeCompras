@@ -8,8 +8,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "dbListaCompras.db";
     private static final int DATABASE_VERSION = 1;
-    private final String CREATE_TABLE = "CREATE TABLE Produto (ID INTEGER PRIMARY KEY AUTOINCREMENT, Categoria INTEGER NOT NULL, " +
-                                        "Nome TEXT NOT NULL, Quantidade REAL NOT NULL, Unidade INTEGER NOT NULL, Status INTEGER NOT NULL);";
+    private final String CREATE_PRODUTO =   "CREATE TABLE Produto (ID INTEGER PRIMARY KEY AUTOINCREMENT, Categoria INTEGER NOT NULL, " +
+                                            "Nome TEXT NOT NULL, Quantidade REAL NOT NULL, Unidade INTEGER NOT NULL, Status INTEGER NOT NULL);";
+    private final String CREATE_UP_PRODUTO =  "CREATE TABLE UpProduto (upFlag INTEGER PRIMARY KEY AUTOINCREMENT);";
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -17,7 +18,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE);
+        db.execSQL(CREATE_PRODUTO);
+        db.execSQL(CREATE_UP_PRODUTO);
     }
 
     @Override

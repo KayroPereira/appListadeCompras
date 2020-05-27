@@ -64,12 +64,17 @@ public class FragClearOther extends Fragment {
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria(1)).commit();
-        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoriaSave()).commit();
+        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
 
         //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria(1)).commit();
-        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoriaSave()).commit();
-        fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
+        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
+        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
         //fragmentTransaction.replace(R.id.frmLClearOther, DashBoardCategoria.newInstance("1", "1")).commit();
+
+        //funcionando
+        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
+
+        fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
 
         return view;
     }

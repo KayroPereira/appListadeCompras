@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.applistadecompras.Communication.CommFirebase;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,10 +23,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
     private ArrayList<DBProduto> produtosLista;
+
+    private DBProduto sProduto = new DBProduto();
+
     private TabLayout tabLayout;
 
     private int[] tabIcons = {
@@ -48,11 +53,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sProduto.setCategoria(-1);
+
         adapter = new AbasAdapter(getSupportFragmentManager());
         adapter.adicionar(new tela1(), "Lista");
         //adapter.adicionar(new DashBoardCategoria(), "Menu");
         adapter.adicionar(new FragClear(), "Despensa");
-        adapter.adicionar(new FragClearOther() , "Compartilhar");
+        adapter.adicionar(new FragClearOther() , "Opções");
         //adapter.adicionar(new frag_categoria(), "Lista");
 
         viewPager = (ViewPager) findViewById(R.id.vp1);
@@ -83,10 +90,22 @@ public class MainActivity extends AppCompatActivity {
         dbOutStatus.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                produtosLista = new CommFirebase().getListaCompras(dataSnapshot, new ConstantsApp().getPathDespensa());
 
-                //new ProdutoDAO(getApplicationContext()).saveList(produtosLista);
+                int upFlag = new ProdutoDAO(getApplicationContext()).getFlagProduto();
 
+                int firebaseFlag = Integer.parseInt(new CommFirebase().getItem(dataSnapshot,new ConstantsApp().getPathDespensa()+new ConstantsApp().getFlgDsp()));
+
+                if (upFlag == -1){
+                    new ProdutoDAO(getApplicationContext()).inputFlagProduto(0);
+                }
+
+                if (upFlag != firebaseFlag) {
+                    produtosLista = new CommFirebase().getListaCompras(dataSnapshot, new ConstantsApp().getPathDespensa());
+                    new ProdutoDAO(getApplicationContext()) .deleteProduto();
+                    new ProdutoDAO(getApplicationContext()).saveList(produtosLista);
+                    new ProdutoDAO(getApplicationContext()).updateFlagProduto(firebaseFlag);
+                }
+                Log.println(Log.VERBOSE, "Teste: ", " Flag: " + upFlag);
             }
 
             @Override
@@ -113,15 +132,15 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
+
         for (Fragment temp : fragmentManager.getFragments()){
-           // assert temp.getTag() != null;
-            //if (!temp.getTag().isEmpty()){
+
             if (temp.getTag() != null){
                 String frag = temp.getTag().replace("frag", "");
 
                 try{
                     int fragNumber = Integer.parseInt(frag);
-                    if (fragNumber == page) {
+                    if ((fragNumber == page) || (page == PAGER_2 && fragNumber % 2 == 0)) {
                         callFragmentDefault(fragNumber);
                         Log.println(Log.VERBOSE, "Teste: ", "Page: " + fragNumber);
                         return;
@@ -150,21 +169,47 @@ public class MainActivity extends AppCompatActivity {
         }
     }*/
 
+    //Click Dashboard OpcoesLCP - viewpager - 2
+    final int PAGER_2 = 2;
+    public void ivClickedOpLCP(View item){
+        if ((item instanceof ImageView) || (item instanceof TextView)) {
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            switch ((int) item.getTag()){
+                case 0:
+                    //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct()).commit();
+                    fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct(), "frag" + PAGER_2).commit(); //todos do primeiro nível devem ser camados com PAGER_2
+                    break;
+
+                case 1:
+                    Log.println(Log.VERBOSE, "Teste: ", "Data: " + new Random().nextInt(10000));
+                    break;
+            }
+
+            //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).addToBackStack(null).commit();
+            //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).commit();
+            //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).addToBackStack("DashBoardOpcoesLCP").commit();
+        }
+    }
+
+    /*
     public void ivClickedCpDB_S(View item){
         if ((item instanceof ImageView) || (item instanceof TextView)) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).addToBackStack(null).commit();
             //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).commit();
-            fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).addToBackStack("DashBoardCategoriaSave").commit();
+            fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).addToBackStack("DashBoardOpcoesLCP").commit();
         }
-    }
+    }*/
 
     public void callFragmentDefault(int fragment){
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        //todos da viewpager 1 terão número impar e todos da viewpager 2 terão número par.
         switch (fragment){
             case 1:
                 fragmentTransaction.replace(R.id.frmLClear, new DashBoardCategoria()).commit();
@@ -174,12 +219,24 @@ public class MainActivity extends AppCompatActivity {
 
             case 2:
                 //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).commit();
-                fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
+                //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
                 //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag()), "page2").addToBackStack(null).commit();
+
+                //funciondo
+                //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
+
+                fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
+                break;
+
+            case 4:
+                //new ConstantsApp().getSaveProduto().setCategoria(-1);
+                sProduto.setCategoria(-1);
+                fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct(), "frag" + PAGER_2).commit();
                 break;
         }
     }
 
+    //click no dashboardCategoria
     public void ivClickedCpDB(View item){
         //DashBoardCategoria dsb = (DashBoardCategoria) getSupportFragmentManager().findFragmentByTag("0");
         //FragClear dsb = (FragClear) getSupportFragmentManager().findFragmentByTag("10");
@@ -207,11 +264,41 @@ public class MainActivity extends AppCompatActivity {
                     //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
                     //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag()), "page2").addToBackStack(null).commit();
 
+                    //funcionando
+                    //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag()), "frag" + page).commit();
 
-                    fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag()), "frag" + page).commit();
+
+                    //new ConstantsApp().setSaveProduto(null);
+                    //DBProduto sProduto = new ConstantsApp().getSaveProduto();
+                    /*
+                    if (sProduto.getCategoria() != -1) {
+                        new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+item.getTag()+"/"+sProduto.getNome(), sProduto.getUnidade());
+
+                        sProduto.setCategoria(-1);
+                        Snackbar.make(item, "Salvou!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
+                        fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct(), "frag" + PAGER_2).commit();
+                    }
+                     */
+                    new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+item.getTag()+"/"+sProduto.getNome(), sProduto.getUnidade());
+                    new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+new ConstantsApp().getFlgDsp(), new Random().nextInt(10000));
+
+                    sProduto.setCategoria(-1);
+                    Snackbar.make(item, "Salvou!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                    //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
+                    fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct(), "frag" + PAGER_2).commit();
                     break;
             }
         }
     }
-}
 
+    public DBProduto getsProduto() {
+        return sProduto;
+    }
+
+    public void setsProduto(DBProduto sProduto) {
+        this.sProduto = sProduto;
+    }
+}

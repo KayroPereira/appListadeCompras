@@ -11,9 +11,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.example.applistadecompras.Communication.CommFirebase;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -29,8 +29,14 @@ public class FragSaveProduct extends Fragment {
 
     private int categoria;
 
+    /*
+    //funcionado
     public FragSaveProduct(int categoria) {
         this.categoria = categoria;
+    }
+    */
+
+    public FragSaveProduct() {
     }
 
     /**
@@ -63,23 +69,48 @@ public class FragSaveProduct extends Fragment {
     }
 
     private ImageView ivSendSQL;
+    private ImageView ivBackFMSP;
     private View viewMain;
+
+    DBProduto sProduto = new DBProduto();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference = database.getReference();
 
     final DatabaseReference dbOutStatus = reference;
+    final int PAGER_4 = 4;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //View view = inflater.inflate(R.layout.fragment_frag_save_product, container, false);
 
+        //DBProduto sProduto = new ConstantsApp().getSaveProduto();
+
+        sProduto.setCategoria(-1);
+
         viewMain = inflater.inflate(R.layout.fragment_frag_save_product, container, false);
 
         ivSendSQL = (ImageView) viewMain.findViewById(R.id.ivSendSQL);
+        ivBackFMSP = (ImageView) viewMain.findViewById(R.id.ivBackFMSP);
+
 
         TextView tvCategoria = (TextView) viewMain.findViewById(R.id.tvCategoria);
-        tvCategoria.setText(new ConstantsApp().getNameCategoryItem(categoria));
+
+        //tvCategoria.setText(new ConstantsApp().getNameCategoryItem(categoria));
+        tvCategoria.setText("Cadastro Produto");
+
+        ivBackFMSP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                //funciondo
+                //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
+
+                fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
+            }
+        });
 
         ivSendSQL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,18 +141,36 @@ public class FragSaveProduct extends Fragment {
                 //ProdutoDAO dao = new ProdutoDAO(inflater.getContext());
                 //boolean sucesso = dao.saveItem(categoria, produto, quantidade, unidade, status);
                 //boolean sucesso = new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+categoria+"/"+produto, unidade);
-                new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+categoria+"/"+produto, unidade);
+                //new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+categoria+"/"+produto, unidade);
                 //if (sucesso) {
                 //limpa os campos
                 //etCategoria.setText("");
-                etProduto.setText("");
+                //etProduto.setText("");
                 //etQuantidade.setText("");
                 //cbStatus.setChecked(false);
 
+                /*
+                //funcionado
+                new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+categoria+"/"+produto, unidade);
+
+                etProduto.setText("");
+
                 rbCheck = (RadioButton) rgUnidade.getChildAt(0);
                 rbCheck.setChecked(true);
-
                 Snackbar.make(view, "Salvou!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                 */
+
+                //DBProduto sProduto = new DBProduto();
+                //sProduto.setCategoria(-1);
+                sProduto.setNome(produto);
+                sProduto.setUnidade(unidade);
+
+                ((MainActivity) getActivity()).setsProduto(sProduto);
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria(), "frag" + PAGER_4).commit();
+
                 //} else {
                 //Snackbar.make(view, "Erro ao salvar, consulte os logs!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 //}

@@ -6,6 +6,23 @@ public class ConstantsApp {
 
     final String pathDespensa = "lstCompras/despensa";
 
+    final String flgDsp = "/flgDsp";
+
+    private DBProduto saveProduto = new DBProduto();
+
+    public DBProduto getSaveProduto() {
+        return saveProduto;
+    }
+
+    public void setSaveProduto(DBProduto saveProduto) {
+        this.saveProduto = saveProduto;
+    }
+
+    public String getFlgDsp() {
+        return flgDsp;
+    }
+
+    /*
     private int modoDashBoard = 0;
 
     public int getModoDashBoard() {
@@ -15,6 +32,7 @@ public class ConstantsApp {
     public void setModoDashBoard(int modoDashBoard) {
         this.modoDashBoard = modoDashBoard;
     }
+     */
 
     public String getPathDespensa() {
         return pathDespensa;
