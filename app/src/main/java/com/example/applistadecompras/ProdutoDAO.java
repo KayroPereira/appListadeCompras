@@ -13,30 +13,36 @@ public class ProdutoDAO {
     private final String TABLE_PRODUTO = "Produto";
     private final String TABLE_UP_PRODUTO = "UpProduto";
 
+    private ConstantsApp constants = new ConstantsApp();
+
     private DbGateway gw;
 
-    public boolean deleteProduto(){
-        return gw.getDatabase().delete(TABLE_PRODUTO, "", new String[]{}) > 0;
-    }
-
-    public boolean updateFlagProduto(int flag){
+    public boolean updateFlagProduto(int id, int flag){
         ContentValues cv = new ContentValues();
         cv.put("upFlag", flag);
         //return gw.getDatabase().update(TABLE_UP_PRODUTO, cv, "upFlag=1", new String[]{1 + ""}) > 0;
-        return gw.getDatabase().update(TABLE_UP_PRODUTO, cv, "", new String[]{}) > 0;
+        //return gw.getDatabase().update(TABLE_UP_PRODUTO, cv, "", new String[]{}) > 0;
+        if (id > 0)
+            return gw.getDatabase().update(TABLE_UP_PRODUTO, cv, "ID=?", new String[]{id+""}) > 0;
+        else
+            return gw.getDatabase().insert(TABLE_UP_PRODUTO, null, cv) > 0;
+
+        //new String[]{category+""}
     }
 
+    /*
     public boolean inputFlagProduto(int flag){
         ContentValues cv = new ContentValues();
         cv.put("upFlag", flag);
         return gw.getDatabase().insert(TABLE_UP_PRODUTO, null, cv) > 0;
     }
+    */
 
-    public int getFlagProduto(){
+    public int getFlagProduto(int id){
         int upFlag = -1;
 
         try {
-            Cursor cursor = gw.getDatabase().rawQuery("SELECT * FROM " + TABLE_UP_PRODUTO, null);
+            Cursor cursor = gw.getDatabase().rawQuery("SELECT * FROM " + TABLE_UP_PRODUTO + " where ID = ?", new String[]{id+""}, null);
             while (cursor.moveToNext()) {
                 upFlag = cursor.getInt(cursor.getColumnIndex("upFlag"));
             }
@@ -55,7 +61,7 @@ public class ProdutoDAO {
 
         try{
             for (DBProduto temp : list)
-            saveItem(temp.getCategoria(), temp.getNome(), temp.getQuantidade(), temp.getUnidade(), temp.isStatus());
+                saveItem(temp.getCategoria(), temp.getNome(), temp.getQuantidade(), temp.getUnidade(), temp.getStatus());
 
         }catch (Exception e){
             return false;
@@ -63,46 +69,106 @@ public class ProdutoDAO {
         return true;
     }
 
-    public boolean saveItem(int categoria, String nome, float quantidade, int unidade, boolean status){
+    public boolean saveItem(int categoria, String nome, float quantidade, int unidade, int status){
         ContentValues cv = new ContentValues();
         cv.put("Categoria", categoria);
         cv.put("Nome", nome);
         cv.put("Quantidade", quantidade);
         cv.put("Unidade", unidade);
-        cv.put("Status", status ? 1 : 0);
+        cv.put("Status", status);
         return gw.getDatabase().insert(TABLE_PRODUTO, null, cv) > 0;
     }
 
+    /*
     public List<DBProduto> retornarTodos(){
         List<DBProduto> produtos = new ArrayList<>();
-        Cursor cursor = gw.getDatabase().rawQuery("SELECT * FROM Produto", null);
+        Cursor cursor = gw.getDatabase().rawQuery("SELECT * FROM " + TABLE_PRODUTO, null);
         while(cursor.moveToNext()){
             int id = cursor.getInt(cursor.getColumnIndex("ID"));
             int categoria = cursor.getInt(cursor.getColumnIndex("Categoria"));
             String nome = cursor.getString(cursor.getColumnIndex("Nome"));
             float quantidade = cursor.getFloat(cursor.getColumnIndex("Quantidade"));
             int unidade = cursor.getInt(cursor.getColumnIndex("Unidade"));
-            boolean status = cursor.getInt(cursor.getColumnIndex("Status")) > 0;
+            int status = cursor.getInt(cursor.getColumnIndex("Status"));
+            produtos.add(new DBProduto(id, categoria, nome, quantidade, unidade, status));
+        }
+        cursor.close();
+        return produtos;
+    }
+    */
+
+    //public List<DBProduto> getListCategory(int mode, int value){
+    public List<DBProduto> getListProduct(int mode, int value){
+        List<DBProduto> produtos = new ArrayList<>();
+
+        Cursor cursor = null;
+
+        switch (mode){
+            case -1:        //retorna dos os itens
+                cursor = gw.getDatabase().rawQuery("SELECT * FROM " + TABLE_PRODUTO, null);
+                break;
+
+            case 1:         //retorna itens por categoria
+                cursor = gw.getDatabase().rawQuery("SELECT * FROM " + TABLE_PRODUTO + " where Categoria = ?", new String[]{value+""}, null);
+                break;
+
+            case 2:         //retorna itens por status
+                cursor = gw.getDatabase().rawQuery("SELECT * FROM " + TABLE_PRODUTO + " where Status = ?", new String[]{value+""}, null);
+                break;
+
+            case 3:         //retorna itens por status - itens que estão fora da despensa
+                cursor = gw.getDatabase().rawQuery("SELECT * FROM " + TABLE_PRODUTO + " where Status = ? or Status = ?", new String[]{constants.getStatusOff()+"", constants.getStatusWait()+""}, null);
+                break;
+        }
+        /*
+        if (category > 0)
+            cursor = gw.getDatabase().rawQuery("SELECT * FROM " + TABLE_PRODUTO + " where Categoria = ?", new String[]{category+""}, null);
+        else
+            cursor = gw.getDatabase().rawQuery("SELECT * FROM " + TABLE_PRODUTO, null);
+         */
+
+        while(cursor.moveToNext()){
+            int id = cursor.getInt(cursor.getColumnIndex("ID"));
+            int categoria = cursor.getInt(cursor.getColumnIndex("Categoria"));
+            String nome = cursor.getString(cursor.getColumnIndex("Nome"));
+            float quantidade = cursor.getFloat(cursor.getColumnIndex("Quantidade"));
+            int unidade = cursor.getInt(cursor.getColumnIndex("Unidade"));
+            int status = cursor.getInt(cursor.getColumnIndex("Status"));
             produtos.add(new DBProduto(id, categoria, nome, quantidade, unidade, status));
         }
         cursor.close();
         return produtos;
     }
 
-    public List<DBProduto> getListCategory(int category){
-        List<DBProduto> produtos = new ArrayList<>();
+    public boolean updateProduto(DBProduto produto, int modo){
+        ContentValues cv = new ContentValues();
 
-        Cursor cursor = gw.getDatabase().rawQuery("SELECT * FROM Produto where Categoria = ?", new String[]{category+""}, null);
-        while(cursor.moveToNext()){
-            int id = cursor.getInt(cursor.getColumnIndex("ID"));
-            int categoria = cursor.getInt(cursor.getColumnIndex("Categoria"));
-            String nome = cursor.getString(cursor.getColumnIndex("Nome"));
-            float quantidade = cursor.getFloat(cursor.getColumnIndex("Quantidade"));
-            int unidade = cursor.getInt(cursor.getColumnIndex("Unidade"));
-            boolean status = cursor.getInt(cursor.getColumnIndex("Status")) > 0;
-            produtos.add(new DBProduto(id, categoria, nome, quantidade, unidade, status));
+        switch (modo){
+            case 1:
+                cv.put("Status", produto.getStatus());
+                return gw.getDatabase().update(TABLE_PRODUTO, cv, "ID=?", new String[]{produto.getId()+""}) > 0;
+
+            case 2:
+                cv.put("Quantidade", produto.getQuantidade());
+                cv.put("Unidade", produto.getUnidade());
+                cv.put("Status", produto.getStatus());
+                return gw.getDatabase().update(TABLE_PRODUTO, cv, "Nome=?", new String[]{produto.getNome()+""}) > 0;
+                //return gw.getDatabase().update(TABLE_UP_PRODUTO, cv, "ID=?", new String[]{produto.getId()+""}) > 0;
+
+            case 3:
+                //deixa todos os produtos disponíveis na despensa / fora da lista de compras
+                cv.put("Status", constants.getStatusOn());
+                //return gw.getDatabase().update(TABLE_UP_PRODUTO, cv, "", new String[]{}) > 0;
+                return gw.getDatabase().update(TABLE_PRODUTO, cv, "", new String[]{}) > 0;
         }
-        cursor.close();
-        return produtos;
+        return false;
+        //return gw.getDatabase().update(TABLE_UP_PRODUTO, cv, "", new String[]{}) > 0;
+    }
+
+    public boolean deleteProduto(int id){
+        if (id > 0)
+            return gw.getDatabase().delete(TABLE_PRODUTO, "ID=?", new String[]{id+""}) > 0;
+        else
+            return gw.getDatabase().delete(TABLE_PRODUTO, "", new String[]{}) > 0;
     }
 }

@@ -3,14 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:focusable="true"
     android:focusableInTouchMode="true">
 
     <TextView
-        android:id="@+id/tvProduto"
+        android:id="@+id/tvProdutoItem"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:fontFamily="@font/acme"
         android:gravity="left|center_vertical"
+        android:textColor="@color/colorTab1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/etQuantidade"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,25 +24,27 @@
         android:layout_width="47dp"
         android:layout_height="0dp"
         android:ems="10"
+        android:fontFamily="@font/acme"
         android:inputType="number|textPersonName"
         android:numeric="decimal"
         android:textAlignment="center"
+        android:textColor="@color/colorTab1"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toStartOf="@+id/clItem_2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ivSendLTS"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:tag="ivSendLTS"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/clItem_2"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginEnd="1dp"
@@ -52,6 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:tag="rgUnidade"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,28 +68,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:checked="false"
+                android:fontFamily="@font/acme"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
-                android:text="Un"
-                android:textSize="12sp" />
+                android:text="un"
+                android:textColor="@color/colorTab1"
+                android:textSize="14sp" />
 
             <RadioButton
                 android:id="@+id/rbMl"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
+                android:fontFamily="@font/acme"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
                 android:text="ml"
-                android:textSize="12sp" />
+                android:textColor="@color/colorTab1"
+                android:textSize="14sp" />
 
             <RadioButton
                 android:id="@+id/rbKg"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
+                android:fontFamily="@font/acme"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
                 android:text="Kg"
-                android:textSize="12sp" />
+                android:textColor="@color/colorTab1"
+                android:textSize="14sp" />
 
         </RadioGroup>
 

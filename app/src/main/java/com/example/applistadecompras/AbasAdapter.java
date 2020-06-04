@@ -21,6 +21,10 @@ public class AbasAdapter extends FragmentStatePagerAdapter {
         this.titulos.add(tituloAba);
     }
 
+    public void set(Fragment fragment, int position){
+        this.fragments.set(position, fragment);
+    }
+
     @Override
     public Fragment getItem(int position) {
         return this.fragments.get(position);

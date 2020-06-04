@@ -1,8 +1,26 @@
 <resources>
-    <string name="app_name">RecyclerView</string>
+    <string name="app_name">Lista Compras</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="cadastrar">Cadastrar</string>
+    <string name="cestaOk">Já na cesta</string>
+    <string name="clearBasket">Limpar Cesta</string>
+    <string name="clearList">Limpar Lista</string>
+    <string name="listClear">(Lista vazia)</string>
+
+    <string name="msgCesta">cesta</string>
+    <string name="msgLista">lista</string>
+
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+
+    <string name="msgClearProduct">Deseja remover os itens da</string>
+    <string name="msgEmptList">Não existem itens na </string>
+    <string name="msgProductEmpt">Favor inserir o nome do produto</string>
+    <string name="msgProductAdd">adicionado a lista</string>
+    <string name="msgProductRemove">removido da lista</string>
+
+    <string name="saveOk">Produto cadastrado</string>
 </resources>

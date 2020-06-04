@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class FragCategoria extends Fragment {
+//implementa interface para ProdutoAdapter
+//public class FragCategoria extends Fragment implements ProdutoAdapter.ContactsAdapterListener{
+public class FragCategoria extends Fragment implements Callbacks{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -27,6 +30,9 @@ public class FragCategoria extends Fragment {
     private String mParam2;
 
     private int categoria;
+
+    private RecyclerView rv;
+    private ProdutoDAO dao;
 
     public FragCategoria(int categoria) {
         this.categoria = categoria;
@@ -62,7 +68,7 @@ public class FragCategoria extends Fragment {
         }
     }
 
-    private Button btBack;
+    private ImageView btBack;
 
     private TextView tvCategoriaCTG;
 
@@ -74,19 +80,25 @@ public class FragCategoria extends Fragment {
 
         View view = inflater.inflate(R.layout.frag_categoria, container, false);
 
-        btBack = view.findViewById(R.id.btBackT2);
+        btBack = view.findViewById(R.id.ivBackFRC);
         tvCategoriaCTG = view.findViewById(R.id.tvCategoriaCTG);
-        RecyclerView rv = view.findViewById(R.id.rvT2);
+        rv = view.findViewById(R.id.rvT2);
 
         tvCategoriaCTG.setText(new ConstantsApp().getNameCategoryItem(categoria));
 
-        ProdutoDAO dao = new ProdutoDAO(getContext());
+        ConstraintLayout clFRC_2 = (ConstraintLayout) view.findViewById(R.id.clFRC_2);
+        clFRC_2.setBackgroundResource(R.drawable.gradient_2);
 
-        produtos = dao.getListCategory(categoria);
+        dao = new ProdutoDAO(getContext());
 
-        adapter = new ProdutoAdapter(produtos, getContext());
+        updateProducts();
+        /*
+        produtos = dao.getListProduct(1, categoria);
+
+        adapter = new ProdutoAdapter(produtos, getContext(), FragCategoria.this);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+         */
 
         btBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +111,30 @@ public class FragCategoria extends Fragment {
         });
 
         return view;
+    }
+
+    /*
+    //recebe informações do ProdutoAdapter
+    @Override
+    public void onContactSelected(DBProduto pd) {
+        Toast.makeText(getContext(), "Call Back Ok: " + pd.getNome(), Toast.LENGTH_SHORT).show();
+        updateList();
+    }
+    */
+
+    @Override
+    public void updateProducts() {
+        //Toast.makeText(getContext(), "Call Back Ok: ", Toast.LENGTH_SHORT).show();
+
+        produtos = dao.getListProduct(1, categoria);
+
+        /*
+        //Passa o fragment como parametro para ProdutoAdapter
+        adapter = new ProdutoAdapter(produtos, getContext(), FragCategoria.this);
+         */
+        adapter = new ProdutoAdapter(produtos, getContext());
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     }
 }
 

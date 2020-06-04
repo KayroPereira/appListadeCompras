@@ -10,13 +10,13 @@ public class DBProduto implements Serializable {
     private String Nome;
     private float Quantidade;
     private int Unidade;
-    private boolean Status;
+    private int Status;
 
     public DBProduto(){
 
     }
 
-    public DBProduto(int id, int categoria, String nome, float quantidade, int unidade, boolean status) {
+    public DBProduto(int id, int categoria, String nome, float quantidade, int unidade, int status) {
         this.id = id;
         Categoria = categoria;
         Nome = nome;
@@ -45,7 +45,7 @@ public class DBProduto implements Serializable {
         return Unidade;
     }
 
-    public boolean isStatus() {
+    public int getStatus() {
         return Status;
     }
 
@@ -79,7 +79,7 @@ public class DBProduto implements Serializable {
         Unidade = unidade;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         Status = status;
     }
 
@@ -91,7 +91,8 @@ public class DBProduto implements Serializable {
         for (int i = 1; i <= numContacts; i++) {
             //produtos.add(new Produto("Produto " + ++lastContactId, 1,i % 3));
             //produtos.add(new Produto("Produto " + ++lastContactId, i % 3,i % 3));
-            produtos.add(new DBProduto(i, 1, "Produto " + ++lastContactId, i-1,i % 3, i % 2 == 0 ? true : false));
+            //produtos.add(new DBProduto(i, 1, "Produto " + ++lastContactId, i-1,i % 3, i % 2 == 0 ? true : false));
+            produtos.add(new DBProduto(i, 1, "Produto " + ++lastContactId, i-1,i % 3, i % 2));
         }
         return produtos;
     }

@@ -84,11 +84,15 @@ public class DashBoardOpcoesLCP extends Fragment{
         view.setOnClickListener(this::handler1);
         //view.setOnClickListener(this.ivClickedCpDB_S());
 
+        //desabilitado no momento
+
         ConstantsApp constantsApp = new ConstantsApp();
         ConstraintLayout fml = (ConstraintLayout) ((FrameLayout) view).getChildAt(0);
+        fml = (ConstraintLayout) fml.getChildAt(0);
 
         int categoriaItem = 0;
         for (int i = 0; i < fml.getChildCount(); i++) {
+        //for (int i = 0; i < 1; i++) {
 
             View comp = fml.getChildAt(i);
 
@@ -102,13 +106,15 @@ public class DashBoardOpcoesLCP extends Fragment{
                         //provisório
                         if (categoriaItem > 0)
                             ((TextView) vTemp).setText("temp");
+
+                        ((TextView) vTemp).setTextColor(getContext().getColor(R.color.colorTab2));
                         vTemp.setTag(categoriaItem);
                         cont++;
                     }
 
                     if (vTemp instanceof ImageView) {
                         //((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("none_day", "drawable", "com.example.applistadecompras"));
-                        ((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("none_day", "drawable", getActivity().getPackageName()));
+                        ((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("adicionar", "drawable", getActivity().getPackageName()));
                         vTemp.setTag(categoriaItem);
                         cont++;
                     }

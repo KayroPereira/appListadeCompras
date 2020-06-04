@@ -91,8 +91,9 @@ public class DashBoardCategoria extends Fragment{
             }
         });
 */
-        ConstantsApp constantsApp = new ConstantsApp();
+        ConstantsApp constants = new ConstantsApp();
         ConstraintLayout fml = (ConstraintLayout) ((FrameLayout) view).getChildAt(0);
+        fml = (ConstraintLayout) fml.getChildAt(0);
 
         int categoriaItem = 0;
         for (int i = 0; i < fml.getChildCount(); i++) {
@@ -105,13 +106,14 @@ public class DashBoardCategoria extends Fragment{
                     View vTemp = ((ConstraintLayout) comp).getChildAt(item);
 
                     if (vTemp instanceof TextView) {
-                        ((TextView) vTemp).setText(constantsApp.getNameCategoryItem(categoriaItem));
+                        ((TextView) vTemp).setText(constants.getNameCategoryItem(categoriaItem));
                         vTemp.setTag(categoriaItem);
+                        ((TextView) vTemp).setTextColor(getContext().getColor(R.color.colorTab1));
                         cont++;
                     }
 
                     if (vTemp instanceof ImageView) {
-                        ((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("rain", "drawable", getActivity().getPackageName()));
+                        ((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("ct"+categoriaItem, "drawable", getActivity().getPackageName()));
                         vTemp.setTag(categoriaItem);
                         cont++;
                     }

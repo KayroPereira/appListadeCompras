@@ -10,7 +10,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private final String CREATE_PRODUTO =   "CREATE TABLE Produto (ID INTEGER PRIMARY KEY AUTOINCREMENT, Categoria INTEGER NOT NULL, " +
                                             "Nome TEXT NOT NULL, Quantidade REAL NOT NULL, Unidade INTEGER NOT NULL, Status INTEGER NOT NULL);";
-    private final String CREATE_UP_PRODUTO =  "CREATE TABLE UpProduto (upFlag INTEGER PRIMARY KEY AUTOINCREMENT);";
+    private final String CREATE_UP_PRODUTO =  "CREATE TABLE UpProduto (ID INTEGER PRIMARY KEY AUTOINCREMENT, upFlag INTEGER NOT NULL);";
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

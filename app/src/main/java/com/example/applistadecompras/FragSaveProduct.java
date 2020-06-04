@@ -10,10 +10,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -82,16 +84,19 @@ public class FragSaveProduct extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_frag_save_product, container, false);
+        //View view = inflater.inflate(R.layout.frag_save_product, container, false);
 
         //DBProduto sProduto = new ConstantsApp().getSaveProduto();
 
         sProduto.setCategoria(-1);
 
-        viewMain = inflater.inflate(R.layout.fragment_frag_save_product, container, false);
+        viewMain = inflater.inflate(R.layout.frag_save_product, container, false);
 
         ivSendSQL = (ImageView) viewMain.findViewById(R.id.ivSendSQL);
         ivBackFMSP = (ImageView) viewMain.findViewById(R.id.ivBackFMSP);
+
+        ConstraintLayout clFSP_1 = (ConstraintLayout) viewMain.findViewById(R.id.clFSP_1);
+        clFSP_1.setBackgroundResource(R.drawable.gradient_1);
 
 
         TextView tvCategoria = (TextView) viewMain.findViewById(R.id.tvCategoria);
@@ -127,49 +132,53 @@ public class FragSaveProduct extends Fragment {
                 //int radioId = rgUnidade.indexOfChild(radioButton);
                 RadioButton rbCheck = (RadioButton) rgUnidade.getChildAt(0);
 
-                //pegando os valores
-                //int categoria = Integer.parseInt(etCategoria.getText().toString());
-                String produto = etProduto.getText().toString().toLowerCase();
-                //float quantidade = Float.parseFloat(etQuantidade.getText().toString());
-                //boolean status = cbStatus.isChecked();
-                int unidade = rbCheck.isChecked() ? 0 : ((RadioButton) rgUnidade.getChildAt(1)).isChecked() ? 1 : 2;
+                if (!etProduto.getText().toString().isEmpty()) {
+                    //pegando os valores
+                    //int categoria = Integer.parseInt(etCategoria.getText().toString());
+                    String produto = etProduto.getText().toString().toLowerCase();
+                    //float quantidade = Float.parseFloat(etQuantidade.getText().toString());
+                    //boolean status = cbStatus.isChecked();
+                    int unidade = rbCheck.isChecked() ? 0 : ((RadioButton) rgUnidade.getChildAt(1)).isChecked() ? 1 : 2;
 
-                produto = produto.substring(0,1).toUpperCase().concat(produto.substring(1));
+                    produto = produto.substring(0, 1).toUpperCase().concat(produto.substring(1));
 
-                //salvando os dados
-                //ProdutoDAO dao = new ProdutoDAO(getBaseContext());
-                //ProdutoDAO dao = new ProdutoDAO(inflater.getContext());
-                //boolean sucesso = dao.saveItem(categoria, produto, quantidade, unidade, status);
-                //boolean sucesso = new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+categoria+"/"+produto, unidade);
-                //new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+categoria+"/"+produto, unidade);
-                //if (sucesso) {
-                //limpa os campos
-                //etCategoria.setText("");
-                //etProduto.setText("");
-                //etQuantidade.setText("");
-                //cbStatus.setChecked(false);
+                    //salvando os dados
+                    //ProdutoDAO dao = new ProdutoDAO(getBaseContext());
+                    //ProdutoDAO dao = new ProdutoDAO(inflater.getContext());
+                    //boolean sucesso = dao.saveItem(categoria, produto, quantidade, unidade, status);
+                    //boolean sucesso = new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+categoria+"/"+produto, unidade);
+                    //new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+categoria+"/"+produto, unidade);
+                    //if (sucesso) {
+                    //limpa os campos
+                    //etCategoria.setText("");
+                    //etProduto.setText("");
+                    //etQuantidade.setText("");
+                    //cbStatus.setChecked(false);
 
-                /*
-                //funcionado
-                new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+categoria+"/"+produto, unidade);
+                    /*
+                    //funcionado
+                    new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+categoria+"/"+produto, unidade);
 
-                etProduto.setText("");
+                    etProduto.setText("");
 
-                rbCheck = (RadioButton) rgUnidade.getChildAt(0);
-                rbCheck.setChecked(true);
-                Snackbar.make(view, "Salvou!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                 */
+                    rbCheck = (RadioButton) rgUnidade.getChildAt(0);
+                    rbCheck.setChecked(true);
+                    Snackbar.make(view, "Salvou!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                     */
 
-                //DBProduto sProduto = new DBProduto();
-                //sProduto.setCategoria(-1);
-                sProduto.setNome(produto);
-                sProduto.setUnidade(unidade);
+                    //DBProduto sProduto = new DBProduto();
+                    //sProduto.setCategoria(-1);
+                    sProduto.setNome(produto);
+                    sProduto.setUnidade(unidade);
 
-                ((MainActivity) getActivity()).setsProduto(sProduto);
+                    ((MainActivity) getActivity()).setsProduto(sProduto);
 
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria(), "frag" + PAGER_4).commit();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria(), "frag" + PAGER_4).commit();
+                }else{
+                    Snackbar.make(view, getString(R.string.msgProductEmpt), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
 
                 //} else {
                 //Snackbar.make(view, "Erro ao salvar, consulte os logs!", Snackbar.LENGTH_LONG).setAction("Action", null).show();

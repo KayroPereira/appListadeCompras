@@ -34,7 +34,7 @@
             android:id="@+id/ivSendSQL"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/none_day"
+            app:srcCompat="@drawable/save2"
             tools:layout_editor_absoluteX="301dp"
             tools:layout_editor_absoluteY="110dp" />
 
