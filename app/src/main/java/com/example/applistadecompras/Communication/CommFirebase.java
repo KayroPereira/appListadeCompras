@@ -58,8 +58,6 @@ public class CommFirebase {
     }
 
     public void sendDataInt(DatabaseReference reference, String path, int value){
-        //dbOutStatus.child("living").child("power").child("out4").setValue(action ? 1 : 0);
-        //dbOutStatus.child("kitchen/l/o1").setValue(8);
         reference.child(path).setValue(value);
     }
 
@@ -68,8 +66,6 @@ public class CommFirebase {
     }
 
     public void deleteItem(DatabaseReference reference, String path){
-        //dbOutStatus.child("living").child("power").child("out4").setValue(action ? 1 : 0);
-        //dbOutStatus.child("kitchen/l/o1").setValue(8);
         reference.child(path).removeValue();
     }
 }

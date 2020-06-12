@@ -9,15 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragClear#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragClear extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -26,17 +18,8 @@ public class FragClear extends Fragment {
     private String mParam2;
 
     public FragClear() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragClear.
-     */
     // TODO: Rename and change types and number of parameters
     public static FragClear newInstance(String param1, String param2) {
         FragClear fragment = new FragClear();
@@ -63,11 +46,6 @@ public class FragClear extends Fragment {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frmLClear, new DashBoardCategoria()).commit();
-
-        //fragmentTransaction.replace(R.id.frmLClear, DashBoardCategoria.newInstance("0", "0")).commit();
-        //fragmentTransaction.replace(R.id.frmLClear, new DashBoardCategoria(0)).commit();
-
-
         return view;
     }
 }

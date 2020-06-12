@@ -13,8 +13,6 @@ import androidx.fragment.app.Fragment;
 
 
 public class DashBoardOpcoesLCP extends Fragment{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -22,36 +20,9 @@ public class DashBoardOpcoesLCP extends Fragment{
     private String mParam1;
     private String mParam2;
 
-    private int modo;
-/*
-    public DashBoardCategoria(int modo) {
-        this.modo = modo;
-        new ConstantsApp().setModoDashBoard(modo);
-    }
- */
-
     public DashBoardOpcoesLCP() {
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Frag1.
-     */
-    /*
-    // TODO: Rename and change types and number of parameters
-    public static DashBoardCategoria newInstance(String param1, String param2) {
-        DashBoardCategoria fragment = new DashBoardCategoria();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-     */
     public static DashBoardOpcoesLCP newInstance(String param1, String param2) {
         DashBoardOpcoesLCP fragment = new DashBoardOpcoesLCP();
         Bundle args = new Bundle();
@@ -79,21 +50,13 @@ public class DashBoardOpcoesLCP extends Fragment{
 
         View view = inflater.inflate(R.layout.dash_board_opcoes_lcp, container, false);
 
-        //view.setOnClickListener(this::ivClickedCpDB_S);
-
         view.setOnClickListener(this::handler1);
-        //view.setOnClickListener(this.ivClickedCpDB_S());
 
-        //desabilitado no momento
-
-        ConstantsApp constantsApp = new ConstantsApp();
         ConstraintLayout fml = (ConstraintLayout) ((FrameLayout) view).getChildAt(0);
         fml = (ConstraintLayout) fml.getChildAt(0);
 
         int categoriaItem = 0;
         for (int i = 0; i < fml.getChildCount(); i++) {
-        //for (int i = 0; i < 1; i++) {
-
             View comp = fml.getChildAt(i);
 
             if (comp instanceof ConstraintLayout) {
@@ -102,17 +65,12 @@ public class DashBoardOpcoesLCP extends Fragment{
                     View vTemp = ((ConstraintLayout) comp).getChildAt(item);
 
                     if (vTemp instanceof TextView) {
-                        //((TextView) vTemp).setText(constantsApp.getNameCategoryItem(categoriaItem));
-                        //provisório
-
                         ((TextView) vTemp).setTextColor(getContext().getColor(R.color.colorTab2));
                         vTemp.setTag(categoriaItem);
                         cont++;
                     }
 
                     if (vTemp instanceof ImageView) {
-                        //((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("none_day", "drawable", "com.example.applistadecompras"));
-                        //((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("adicionar", "drawable", getActivity().getPackageName()));
                         vTemp.setTag(categoriaItem);
                         cont++;
                     }
@@ -122,217 +80,6 @@ public class DashBoardOpcoesLCP extends Fragment{
                 }
             }
         }
-/*
-        btTela2DB = view.findViewById(R.id.btTela2DB);
-
-        btTela2DB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frmLClear, new frag_categoria(1)).addToBackStack(null).commit();
-            }
-        });
-
- */
         return view;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-public class DashBoardCategoria extends Fragment {
-
-    private Button btTela2DB;
-    private FragmentManager fragmentTransaction;
-    private frag_categoria testeFragment;
-    private FragmentTransaction transaction;
-
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.dash_board_categoria, container, false);
-        //FragmentManager fm = view.getSupportFragmentManager();
-
-        View view = inflater.inflate(R.layout.dash_board_categoria, container, false);
-        //FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-        //FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.replace(R.id.frmLClear, new frag_categoria()).commit();
-
-
-        btTela2DB = view.findViewById(R.id.btTela2DB);
-
-        btTela2DB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frmL1, new frag_categoria()).addToBackStack(null).commit();
-            }
-        });
-
- /*
-        btTela2DB = view.findViewById(R.id.btTela2DB);
-
-        //FragmentManager fm = getFragmentManager();
-
-        //fragmentTransaction = getFragmentManager();
-        //fragmentTransaction = getActivity().getSupportFragmentManager();
-
-
-        fragmentTransaction = getChildFragmentManager();
-        //fragmentTransaction = getChildFragmentManager();
-
-        //fragmentTransaction = getActivity().getSupportFragmentManager();
-
-
-        //fragmentTransaction = getActivity().getSupportFragmentManager();
-
-        transaction = fragmentTransaction.beginTransaction();
-        /*
-        testeFragment = new frag_categoria();
-        transaction = fragmentTransaction.beginTransaction();
-        */
-/*
-        TrocaOleoFragment frag_troca_oleo = (TrocaOleoFragment)fm.findFragmentByTag("frag_troca_oleo");
-        if(frag_troca_oleo == null) {
-            frag_troca_oleo = new TrocaOleoFragment();
-        }
-        ft.replace(R.id.layout_central, frag_troca_oleo, "frag_troca_oleo");
-*/
-
-/*
-        FragmentManager manager = getSupportFragmentManager();
-        fragment_name fragment_name = new fragment_name();
-        manager.beginTransaction().replace(R.id.layoutasubstituir, fragment_name, fragment_name.getTag()).commit();
-*/
-
-/*
-        btTela2DB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                /*
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragment = fragmentManager.findFragmentById(R.id.fragment_cart);
-                final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.hide(fragment);
-                fragmentTransaction.commit();
-
-                 */
-
-
-                //FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                //transaction.add(R.id.clTela2_1, testeFragment, "Tela2-2");
-                //if(isChecked){
-                //transaction.show(testeFragment);
-                //transaction.commit();
-                //}else{
-                  //  fragmentTransaction.hide(shower_fragment);
-                   // fragmentTransaction.commit();
-
-                //}
-
-                //fragmentManager?.beginTransaction()?.hide(fragmentManager?.findFragmentByTag(LIST_FRAG_TAG))?.commit();
-                //transaction.hide(fragmentTransaction.findFragmentById(R.id.clDashboard)).commit();
-                /*
-                fragmentTransaction.beginTransaction()
-                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                        .show(somefrag)
-                        .commit();
-                 */
-
-                /*
-                fragmentTransaction.beginTransaction()
-                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                        .show(testeFragment)
-                        .commit();
-
-                */
-                /*
-                final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.clDashboard, new frag_categoria(), "teste");
-                ft.commit();
-
-                 */
-
-                /*
-                FragmentActivity mainActivity = getActivity();
-
-                if(mainActivity instanceof MainActivity)
-                    ((MainActivity) mainActivity).setCurrentItemPager(R.id.clTela2_1);
-                    //((MainActivity) mainActivity).setCurrentItemPager(R.layout.frag_categoria);
-
-                */
-                //if(v.getId() == btCone.getId()){
-                //Toast.makeText(getActivity(),"TESTEBUTTON",Toast.LENGTH_SHORT).show();
-
-                //testeFragment = (frag_categoria)fragmentTransaction.findFragmentById(R.id.clTela2_1);
-
-                /*
-                testeFragment = (frag_categoria)fragmentTransaction.findFragmentById(R.id.clTela2_1);
-
-                if(testeFragment == null)
-                    testeFragment = new frag_categoria();
-
-                 */
-
-                //testeFragment = new frag_categoria();
-
-                //transaction.hide(DashBoardCategoria());
-
-                //frag_categoria testeFragment = new frag_categoria();
-
-                //transaction.replace(R.id.container_fragment, testeFragment);
-                //transaction.replace(R.id.clTela2, testeFragment);
-
-                //transaction.replace(R.id.clDashboard, testeFragment);
-                //transaction.replace(R.id.clTela2_1, testeFragment);
-                //transaction.replace(R.id.clMain, testeFragment);
-
-                //transaction.hide(DashBoardCategoria());
-
-                //transaction.replace(R.id.clDashboard, testeFragment, testeFragment.getTag());
-
-                /*
-                try {
-                    this.finalize();
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-                 */
-
-                //transaction.replace(R.id.clDashboard, testeFragment);
-                //transaction.replace(R.id.clDashboard, testeFragment);
-
-                /*
-                transaction.add(R.id.clDashboard, testeFragment);
-
-                //transaction.addToBackStack(null);
-
-                transaction.commit();
-                //transaction.commitNowAllowingStateLoss();
-                //transaction.commitNow();
-            }
-        });
-        */
-
-
-/*
-        return view;
-    }
-}
-
- */

@@ -22,46 +22,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class FragSaveProduct extends Fragment implements View.OnClickListener, View.OnFocusChangeListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    //private int categoria;
-
-    /*
-    //funcionado
-    public FragSaveProduct(int categoria) {
-        this.categoria = categoria;
-    }
-    */
-
     public FragSaveProduct() {
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param //param1 Parameter 1.
-     * @param //param2 Parameter 2.
-     * @return A new instance of fragment FragSaveProduct.
-     */
-    /*
-    // TODO: Rename and change types and number of parameters
-    public static FragSaveProduct newInstance(String param1, String param2) {
-        FragSaveProduct fragment = new FragSaveProduct();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-     */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,9 +59,6 @@ public class FragSaveProduct extends Fragment implements View.OnClickListener, V
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.frag_save_product, container, false);
-
-        //DBProduto sProduto = new ConstantsApp().getSaveProduto();
 
         sProduto.setCategoria(-1);
 
@@ -108,10 +74,8 @@ public class FragSaveProduct extends Fragment implements View.OnClickListener, V
         ConstraintLayout clFSP_1 = (ConstraintLayout) viewMain.findViewById(R.id.clFSP_1);
         clFSP_1.setBackgroundResource(R.drawable.gradient_1);
 
-
         TextView tvCategoria = (TextView) viewMain.findViewById(R.id.tvCategoria);
 
-        //tvCategoria.setText(new ConstantsApp().getNameCategoryItem(categoria));
         tvCategoria.setText("Cadastro Produto");
 
         clFSP_1.setOnClickListener(this);
@@ -126,9 +90,6 @@ public class FragSaveProduct extends Fragment implements View.OnClickListener, V
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                //funciondo
-                //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
-
                 fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
                 hideSoftKeyboard(ivBackFMSP);
             }
@@ -138,55 +99,20 @@ public class FragSaveProduct extends Fragment implements View.OnClickListener, V
             @Override
             public void onClick(View view) {
                 //carregando os campos
-                //EditText etCategoria = (EditText) viewMain.findViewById(R.id.etCategoria);
                 EditText etProduto = (EditText) viewMain.findViewById(R.id.etProduto);
-                //EditText etQuantidade = (EditText) viewMain.findViewById(R.id.etQuantidade);
                 RadioGroup rgUnidade = (RadioGroup) viewMain.findViewById(R.id.rgUnidade);
-                //CheckBox cbStatus = (CheckBox) viewMain.findViewById(R.id.cbStatus);
-
 
                 View radioButton = rgUnidade.findViewById(rgUnidade.getCheckedRadioButtonId());
-                //int radioId = rgUnidade.indexOfChild(radioButton);
                 RadioButton rbCheck = (RadioButton) rgUnidade.getChildAt(0);
 
                 hideSoftKeyboard(ivBackFMSP);
 
                 if (!etProduto.getText().toString().isEmpty()) {
                     //pegando os valores
-                    //int categoria = Integer.parseInt(etCategoria.getText().toString());
                     String produto = etProduto.getText().toString().toLowerCase();
-                    //float quantidade = Float.parseFloat(etQuantidade.getText().toString());
-                    //boolean status = cbStatus.isChecked();
                     int unidade = rbCheck.isChecked() ? 0 : ((RadioButton) rgUnidade.getChildAt(1)).isChecked() ? 1 : 2;
 
                     produto = produto.substring(0, 1).toUpperCase().concat(produto.substring(1));
-
-                    //salvando os dados
-                    //ProdutoDAO dao = new ProdutoDAO(getBaseContext());
-                    //ProdutoDAO dao = new ProdutoDAO(inflater.getContext());
-                    //boolean sucesso = dao.saveItem(categoria, produto, quantidade, unidade, status);
-                    //boolean sucesso = new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+categoria+"/"+produto, unidade);
-                    //new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+categoria+"/"+produto, unidade);
-                    //if (sucesso) {
-                    //limpa os campos
-                    //etCategoria.setText("");
-                    //etProduto.setText("");
-                    //etQuantidade.setText("");
-                    //cbStatus.setChecked(false);
-
-                    /*
-                    //funcionado
-                    new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+categoria+"/"+produto, unidade);
-
-                    etProduto.setText("");
-
-                    rbCheck = (RadioButton) rgUnidade.getChildAt(0);
-                    rbCheck.setChecked(true);
-                    Snackbar.make(view, "Salvou!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                     */
-
-                    //DBProduto sProduto = new DBProduto();
-                    //sProduto.setCategoria(-1);
                     sProduto.setNome(produto);
                     sProduto.setUnidade(unidade);
 
@@ -198,10 +124,6 @@ public class FragSaveProduct extends Fragment implements View.OnClickListener, V
                 }else{
                     Snackbar.make(view, getString(R.string.msgProductEmpt), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
-
-                //} else {
-                //Snackbar.make(view, "Erro ao salvar, consulte os logs!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                //}
             }
         });
         return viewMain;

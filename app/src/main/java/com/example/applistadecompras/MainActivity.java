@@ -80,18 +80,12 @@ public class MainActivity extends AppCompatActivity {
         ivTab1 = (ImageView) findViewById(R.id.ivTab1);
         ivTab2 = (ImageView) findViewById(R.id.ivTab2);
 
-        //ivTab0.setOnClickListener();
-
         sProduto.setCategoria(-1);
-
-        //callbacks = (Callbacks) new FragMyList();
 
         adapter = new AbasAdapter(getSupportFragmentManager());
         adapter.adicionar(new FragMyList(), "Minha Lista");
-        //adapter.adicionar(new DashBoardCategoria(), "Menu");
         adapter.adicionar(new FragClear(), "Despensa");
         adapter.adicionar(new FragClearOther() , "Opções");
-        //adapter.adicionar(new frag_categoria(), "Lista");
 
         viewPager = (ViewPager) findViewById(R.id.vp1);
         viewPager.setAdapter(adapter);
@@ -104,12 +98,10 @@ public class MainActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //Log.println(Log.VERBOSE, "Teste: ", position+" t1");
             }
 
             @Override
             public void onPageSelected(int position) {
-                //Log.println(Log.VERBOSE, "Teste: ", position+" t2");
                 page = position;
                 setupTabIcons(page);
                 hideSoftKeyboard(ivTab0);
@@ -128,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                //Log.println(Log.VERBOSE, "Teste: ", state+" t3");
             }
         });
 
@@ -145,26 +136,17 @@ public class MainActivity extends AppCompatActivity {
 
                 int firebaseFlag = Integer.parseInt(new CommFirebase().getItem(dataSnapshot,constants.getPathDespensa()+constants.getPathFlgDsp()));
 
-                /*
-                if (upFlag == -1) {
-                    new ProdutoDAO(getApplicationContext()).updateFlagProduto(-1, 0);
-                }*/
-
                 if (upFlag != firebaseFlag) {
                     produtosLista = new CommFirebase().getListaCompras(dataSnapshot, constants.getPathDespensa(), constants.getFlgDsp());
-                    //new ProdutoDAO(getApplicationContext()).deleteProduto(constants.getFlgDsp());
                     new ProdutoDAO(getApplicationContext()).deleteProduto(-1);
                     new ProdutoDAO(getApplicationContext()).saveList(produtosLista);
                     new ProdutoDAO(getApplicationContext()).updateFlagProduto(constants.getFlgDsp(), firebaseFlag);
                     new ProdutoDAO(getApplicationContext()).updateFlagProduto(constants.getFlgMlst(), firebaseFlag);
                 }
 
-                //Log.println(Log.VERBOSE, "Teste: ", " Flag: " + upFlag);
-
                 upFlag = new ProdutoDAO(getApplicationContext()).getFlagProduto(constants.getFlgMlst());
                 firebaseFlag = Integer.parseInt(new CommFirebase().getItem(dataSnapshot,constants.getPathMinhaLista()+constants.getPathFlgMlst()));
 
-                //if(false){
                 if (upFlag != firebaseFlag) {
                     ArrayList<DBProduto> produtosMyLista = new CommFirebase().getListaCompras(dataSnapshot, constants.getPathMinhaLista(), constants.getFlgMlst());
                     new ProdutoDAO(getApplicationContext()).updateProduto(null, 3);         //deixa todos os produtos disponíveis na despensa / fora da lista de compras
@@ -172,8 +154,7 @@ public class MainActivity extends AppCompatActivity {
                     for (DBProduto temp : produtosMyLista){
                         new ProdutoDAO(getApplicationContext()).updateProduto(temp, 2);              //atualiza o status, quantidade e unidade dos produtos da lista
                     }
-                    //new ProdutoDAO(getApplicationContext()).deleteProduto(constants.getFlgDsp());
-                    //new ProdutoDAO(getApplicationContext()).saveList(produtosLista);
+
                     new ProdutoDAO(getApplicationContext()).updateFlagProduto(constants.getFlgMlst(), firebaseFlag);
 
 
@@ -186,20 +167,6 @@ public class MainActivity extends AppCompatActivity {
                         callbacksProductCategoria.updateProducts();
 
                     flgUpdateTab1 = true;
-                    /*
-                    //funcionando
-                    if (page == PAGER_1)
-                        callbacksProductCategoria.updateProducts();
-                     */
-
-                    //FriendsAdapter mAdapter = new FriendsAdapter(getContext(), userDataset);
-                    //mRecycler.setAdapter(mAdapter);
-
-                    /*
-                    FragMyList myFragment = (FragMyList) getSupportFragmentManager().findFragmentById(R.id.frmL1);
-                    if(myFragment != null && myFragment.isAdded(){
-                        myFragment.myRecyclerView.notifyItemRemoved();
-                    }*/
                 }
             }
 
@@ -208,26 +175,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-/*
-        RecyclerView rv = (RecyclerView) findViewById(R.id.rv);
-        //rv.setLayoutManager(new LinearLayoutManager(this));
-
-        produtos = new Produto().createContactsList(20);
-
-        ProdutoAdapter adapter1 = new ProdutoAdapter(produtos, this);
-        rv.setAdapter(adapter1);
-        rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        //rv.setItemViewCacheSize(produtos.size());
- */
-
     }
 
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
         try {
-            //Log.println(Log.VERBOSE, "Teste", fragment.toString());
             if (fragment.toString().indexOf("FragMyList") == 0)
                 callbacks = (Callbacks) fragment;
 
@@ -238,7 +191,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//sika fill rápido teto frio
     @Override
     public void onBackPressed() {
 
@@ -266,48 +218,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupTabIcons(int pageMode) {
-        //tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        //tabLayout.getTabAt(1).setIcon(tabIcons[2]);
-        //tabLayout.getTabAt(2).setIcon(tabIcons[4]);
-
         ivTab0.setImageResource(tabIcons[0]);
         ivTab1.setImageResource(tabIcons[2]);
         ivTab2.setImageResource(tabIcons[4]);
 
-        //tabLayout.setTabTextColors(R.color.colorMyListCategory, R.color.colorFontProduct);
-
-        //tabLayout.getTabAt(0);
-
         switch (pageMode) {
             case 0:
-                //tabLayout.getTabAt(0).setIcon(tabIcons[1]);
                 tabLayout.setTabTextColors(Color.parseColor("#727272"), getBaseContext().getColor(R.color.colorTab0));
-                //tabLayout.setTabTextColors(Color.parseColor("#727272"), getResources().getColor(R.color.colorTab0, getTheme()));
                 ivTab0.setImageResource(tabIcons[1]);
                 break;
 
             case 1:
-                //tabLayout.getTabAt(1).setIcon(tabIcons[3]);
                 tabLayout.setTabTextColors(Color.parseColor("#727272"), getBaseContext().getColor(R.color.colorTab1));
                 ivTab1.setImageResource(tabIcons[3]);
                 break;
 
             case 2:
-                //tabLayout.getTabAt(2).setIcon(tabIcons[5]);
                 tabLayout.setTabTextColors(Color.parseColor("#727272"), getBaseContext().getColor(R.color.colorTab2));
                 ivTab2.setImageResource(tabIcons[5]);
                 break;
         }
     }
-
-    /*
-    public void ivClickedCpDB(View item){
-        if ((item instanceof ImageView) || (item instanceof TextView)) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.frmLClear, new FragCategoria((int) item.getTag())).addToBackStack(null).commit();
-        }
-    }*/
 
     //Click Dashboard OpcoesLCP - viewpager - 2
     public void ivClickedOpLCP(View item){
@@ -317,31 +248,18 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             switch ((int) item.getTag()){
                 case 0:
-                    //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct()).commit();
                     fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct(), "frag" + PAGER_2).commit(); //todos do primeiro nível devem ser camados com PAGER_2
                     break;
 
                 case 1:
-                    //Log.println(Log.VERBOSE, "Teste: ", "Data: " + new Random().nextInt(constants.rangeRandom));
-                    //Snackbar.make(view, getString(R.string.msgProductEmpt), Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                    //Toast.makeText(getContext(), mProdutos.get(position).getNome() + " " + context.getString(R.string.msgProductRemove), Toast.LENGTH_SHORT).show();
-
-                    //Toast.makeText(this, "Button 1", Toast.LENGTH_LONG).show();
-
-                    //shareWhatsApp(getString(R.string.msgCompartilharLst), data);
                     shareWhatsApp(getString(R.string.msgCompartilharLst), formatSharedMensage());
                     break;
             }
-
-            //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).addToBackStack(null).commit();
-            //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).commit();
-            //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).addToBackStack("DashBoardOpcoesLCP").commit();
         }
     }
 
     private String formatSharedMensage(){
         String productList = "*" + getString(R.string.msgLstCompras) + "*\n\n";
-        //String purchasedProductList = "\n*" + getString(R.string.cestaOk) + "*\n\n";
         String purchasedProductList = "";
 
         List<DBProduto> produtos = new ProdutoDAO(this).getListProduct(3, -1);
@@ -351,14 +269,9 @@ public class MainActivity extends AppCompatActivity {
             return productList;
         }
 
-        //List<DBProduto> tempProduto = new ArrayList<>();
-        //List<DBProduto> purchasedProducts = new ArrayList<>();
-
-        //purchasedProducts.add(new DBProduto(-1, -1, getString(R.string.cestaOk), 0, -1, -1));
-
-        //int id, int categoria, String nome, float quantidade, int unidade, int status
         int     category = -1,
                 position = 0;
+
         for (DBProduto temp : produtos){
             if (temp.getCategoria() != category){
                 category = temp.getCategoria();
@@ -398,17 +311,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(share, title));
     }
 
-    /*
-    public void ivClickedCpDB_S(View item){
-        if ((item instanceof ImageView) || (item instanceof TextView)) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).addToBackStack(null).commit();
-            //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).commit();
-            fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).addToBackStack("DashBoardOpcoesLCP").commit();
-        }
-    }*/
-
     public void callFragmentDefault(int fragment){
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -418,23 +320,13 @@ public class MainActivity extends AppCompatActivity {
         switch (fragment){
             case 1:
                 fragmentTransaction.replace(R.id.frmLClear, new DashBoardCategoria()).commit();
-                //fragmentTransaction.replace(R.id.frmLClear, new FragCategoria((int) item.getTag()), "frag1").addToBackStack(null).commit();
-                //fragmentTransaction.replace(R.id.frmLClear, new FragCategoria((int) item.getTag()), "page1").addToBackStack(null).commit();
                 break;
 
             case 2:
-                //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).commit();
-                //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
-                //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag()), "page2").addToBackStack(null).commit();
-
-                //funciondo
-                //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
-
                 fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
                 break;
 
             case 4:
-                //new ConstantsApp().getSaveProduto().setCategoria(-1);
                 sProduto.setCategoria(-1);
                 fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct(), "frag" + PAGER_2).commit();
                 break;
@@ -443,56 +335,22 @@ public class MainActivity extends AppCompatActivity {
 
     //click no dashboardCategoria
     public void ivClickedCpDB(View item){
-        //DashBoardCategoria dsb = (DashBoardCategoria) getSupportFragmentManager().findFragmentByTag("0");
-        //FragClear dsb = (FragClear) getSupportFragmentManager().findFragmentByTag("10");
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if ((item instanceof ImageView) || (item instanceof TextView)) {
-            //fragmentTransaction.replace(R.id.frmLClear, new FragCategoria((int) item.getTag())).addToBackStack(null).commit();
-            //fragmentTransaction.replace(R.id.frmLClear, new FragCategoria((int) item.getTag())).commit();
-
-            //fragmentTransaction.replace(R.id.frmLClear, new FragCategoria((int) item.getTag())).addToBackStack("DashBoardCategoria").commit();
-
             switch (page){
                 case 1:
-                    //fragmentTransaction.replace(R.id.frmLClear, new DashBoardCategoria()).commit();
-                    //fragmentTransaction.replace(R.id.frmLClear, new FragCategoria((int) item.getTag()), "page1").addToBackStack(null).commit();
-
-                    //fragmentTransaction.replace(R.id.frmLClear, new FragCategoria((int) item.getTag()), "frag" + page).addToBackStack(null).commit();
                     fragmentTransaction.replace(R.id.frmLClear, new FragCategoria((int) item.getTag()), "frag" + page).commit();
                     break;
 
                 case 2:
-                    //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).commit();
-                    //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
-                    //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag()), "page2").addToBackStack(null).commit();
-
-                    //funcionando
-                    //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag()), "frag" + page).commit();
-
-
-                    //new ConstantsApp().setSaveProduto(null);
-                    //DBProduto sProduto = new ConstantsApp().getSaveProduto();
-                    /*
-                    if (sProduto.getCategoria() != -1) {
-                        new CommFirebase().sendDataInt(dbOutStatus, new ConstantsApp().getPathDespensa()+"/"+item.getTag()+"/"+sProduto.getNome(), sProduto.getUnidade());
-
-                        sProduto.setCategoria(-1);
-                        Snackbar.make(item, "Salvou!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
-                        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
-                        fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct(), "frag" + PAGER_2).commit();
-                    }
-                     */
                     new CommFirebase().sendDataInt(dbOutStatus, constants.getPathDespensa()+"/"+item.getTag()+"/"+sProduto.getNome(), sProduto.getUnidade());
                     new CommFirebase().sendDataInt(dbOutStatus, constants.getPathDespensa()+constants.getPathFlgDsp(), new Random().nextInt(constants.rangeRandom));
 
                     sProduto.setCategoria(-1);
                     Snackbar.make(item, getString(R.string.saveOk), Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
-                    //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
                     fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct(), "frag" + PAGER_2).commit();
                     break;
             }

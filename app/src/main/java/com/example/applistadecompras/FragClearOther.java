@@ -9,15 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragClearOther#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragClearOther extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -26,17 +18,8 @@ public class FragClearOther extends Fragment {
     private String mParam2;
 
     public FragClearOther() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragClear.
-     */
     // TODO: Rename and change types and number of parameters
     public static FragClearOther newInstance(String param1, String param2) {
         FragClearOther fragment = new FragClearOther();
@@ -61,19 +44,7 @@ public class FragClearOther extends Fragment {
         View view = inflater.inflate(R.layout.frag_clear_other, container, false);
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria(1)).commit();
-        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
-
-        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria(1)).commit();
-        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
-        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
-        //fragmentTransaction.replace(R.id.frmLClearOther, DashBoardCategoria.newInstance("1", "1")).commit();
-
-        //funcionando
-        //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
-
         fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
 
         return view;

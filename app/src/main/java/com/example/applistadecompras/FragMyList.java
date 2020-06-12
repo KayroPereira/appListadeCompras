@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Random;
 
 public class FragMyList extends Fragment implements Callbacks, OnClickListener{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -35,17 +33,8 @@ public class FragMyList extends Fragment implements Callbacks, OnClickListener{
     private String mParam2;
 
     public FragMyList() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Frag1.
-     */
     // TODO: Rename and change types and number of parameters
     public static FragMyList newInstance(String param1, String param2) {
         FragMyList fragment = new FragMyList();
@@ -75,14 +64,9 @@ public class FragMyList extends Fragment implements Callbacks, OnClickListener{
     private ImageView ivClearList;
     private TextView tvClearBasket;
     private TextView tvClearList;
-    //private MyListAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //rv.setLayoutManager(new LinearLayoutManager(this));
-
-        //produtos = new DBProduto().createContactsList(20);
-
         view = inflater.inflate(R.layout.frag_my_list, container, false);
 
         ivClearBasket = view.findViewById(R.id.ivClearBasketMYL);
@@ -90,61 +74,12 @@ public class FragMyList extends Fragment implements Callbacks, OnClickListener{
         tvClearBasket = view.findViewById(R.id.tvClearBasketMYL);
         tvClearList = view.findViewById(R.id.tvClearListMYL);
 
-        //view.setOnClickListener(this);
         ivClearBasket.setOnClickListener(this);
         ivClearList.setOnClickListener(this);
         tvClearBasket.setOnClickListener(this);
         tvClearList.setOnClickListener(this);
 
         updateMyList();
-        /*
-        produtos = new ProdutoDAO(getContext()).getListProduct(3, -1);
-
-        //ProdutoAdapter adapter = new ProdutoAdapter(produtos, this);
-        //ProdutoAdapter adapter = new ProdutoAdapter(produtos, getContext());
-
-        MyListAdapter adapter = new MyListAdapter(produtos, getContext());
-        rv.setAdapter(adapter);
-        //rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        */
-
-        /*
-
-        View view = inflater.inflate(R.layout.fragment_frag1, container, false);
-
-        btFrag2 = view.findViewById(R.id.btFrag2);
-
-        btFrag2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                //FragmentManager fragmentManager = getFragmentManager();
-                //FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-                //FragmentManager fragmentManager = getChildFragmentManager();
-
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                //fragmentTransaction.remove(new Frag1());
-                //fragmentTransaction.hide(this.);
-
-                //fragmentTransaction.add(R.id.frmL1, new Frag4());
-                //fragmentTransaction.commit();
-
-
-                fragmentTransaction.replace(R.id.frmLClear, new Frag4()).addToBackStack(null).commit();
-
-
-                //fragmentTransaction.replace(R.id.frmL1, new Frag4()).commit();
-            }
-        });
-
-        //return inflater.inflate(R.layout.fragment_frag1, container, false);
-
-         */
         return view;
     }
 
@@ -160,7 +95,6 @@ public class FragMyList extends Fragment implements Callbacks, OnClickListener{
 
         purchasedProducts.add(new DBProduto(-1, -1, getString(R.string.cestaOk), 0, -1, -1));
 
-        //int id, int categoria, String nome, float quantidade, int unidade, int status
         int category = -1,
             position = 0;
         for (DBProduto temp : produtos){
@@ -194,14 +128,10 @@ public class FragMyList extends Fragment implements Callbacks, OnClickListener{
             produtos.add(new DBProduto(-2, -2, getString(R.string.listClear), 0, -1, -1));
         }
 
-        //ProdutoAdapter adapter = new ProdutoAdapter(produtos, this);
-        //ProdutoAdapter adapter = new ProdutoAdapter(produtos, getContext());
-
         rv = view.findViewById(R.id.rv);
 
         MyListAdapter adapter = new MyListAdapter(produtos, getContext());
         rv.setAdapter(adapter);
-        //rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     }
 
@@ -267,51 +197,3 @@ public class FragMyList extends Fragment implements Callbacks, OnClickListener{
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
-
-
-/*
-
-public class FragMyList extends Fragment {
-
-    private ArrayList<DBProduto> produtos;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.FragMyList, container, false);
-
-        RecyclerView rv = view.findViewById(R.id.rv);
-        //rv.setLayoutManager(new LinearLayoutManager(this));
-
-        produtos = new DBProduto().createContactsList(20);
-
-        //ProdutoAdapter adapter = new ProdutoAdapter(produtos, this);
-        ProdutoAdapter adapter = new ProdutoAdapter(produtos, getContext());
-        rv.setAdapter(adapter);
-        //rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        //rv.setItemViewCacheSize(produtos.size());
-        /*
-        i = 0;
-        View view = inflater.inflate(R.layout.FragMyList, container, false);
-
-        TextView tv = view.findViewById(R.id.textView);
-        tv.setText("Você está na primeira aba");
-
-        tv1 = view.findViewById(R.id.textView2);
-
-        Button bt = view.findViewById(R.id.button);
-
-        bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tv1.setText("Cont: " + i++);
-            }
-        });
-         */
-/*
-        return view;
-    }
-}
-
- */

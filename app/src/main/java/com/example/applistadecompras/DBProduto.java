@@ -1,7 +1,6 @@
 package com.example.applistadecompras;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class DBProduto implements Serializable {
 
@@ -81,19 +80,5 @@ public class DBProduto implements Serializable {
 
     public void setStatus(int status) {
         Status = status;
-    }
-
-    //remover
-    private int lastContactId = 0;
-    public ArrayList<DBProduto> createContactsList(int numContacts) {
-        ArrayList<DBProduto> produtos = new ArrayList<>();
-
-        for (int i = 1; i <= numContacts; i++) {
-            //produtos.add(new Produto("Produto " + ++lastContactId, 1,i % 3));
-            //produtos.add(new Produto("Produto " + ++lastContactId, i % 3,i % 3));
-            //produtos.add(new DBProduto(i, 1, "Produto " + ++lastContactId, i-1,i % 3, i % 2 == 0 ? true : false));
-            produtos.add(new DBProduto(i, 1, "Produto " + ++lastContactId, i-1,i % 3, i % 2));
-        }
-        return produtos;
     }
 }
