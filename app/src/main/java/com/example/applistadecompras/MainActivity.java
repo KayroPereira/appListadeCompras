@@ -1,9 +1,12 @@
 package com.example.applistadecompras;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int page = 0;
     private boolean flgUpdateTab0 = false;
+    private boolean flgUpdateTab1 = true;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference = database.getReference();
@@ -107,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 //Log.println(Log.VERBOSE, "Teste: ", position+" t2");
                 page = position;
                 setupTabIcons(page);
+                hideSoftKeyboard(ivTab0);
 
                 if (page == PAGER_0 && flgUpdateTab0) {
                     callbacks.updateMyList();
@@ -158,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
                 upFlag = new ProdutoDAO(getApplicationContext()).getFlagProduto(constants.getFlgMlst());
                 firebaseFlag = Integer.parseInt(new CommFirebase().getItem(dataSnapshot,constants.getPathMinhaLista()+constants.getPathFlgMlst()));
 
+                //if(false){
                 if (upFlag != firebaseFlag) {
                     ArrayList<DBProduto> produtosMyLista = new CommFirebase().getListaCompras(dataSnapshot, constants.getPathMinhaLista(), constants.getFlgMlst());
                     new ProdutoDAO(getApplicationContext()).updateProduto(null, 3);         //deixa todos os produtos disponíveis na despensa / fora da lista de compras
@@ -175,8 +182,15 @@ public class MainActivity extends AppCompatActivity {
                     else
                         flgUpdateTab0 = true;
 
+                    if (page == PAGER_1 && flgUpdateTab1)
+                        callbacksProductCategoria.updateProducts();
+
+                    flgUpdateTab1 = true;
+                    /*
+                    //funcionando
                     if (page == PAGER_1)
                         callbacksProductCategoria.updateProducts();
+                     */
 
                     //FriendsAdapter mAdapter = new FriendsAdapter(getContext(), userDataset);
                     //mRecycler.setAdapter(mAdapter);
@@ -308,7 +322,14 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case 1:
-                    Log.println(Log.VERBOSE, "Teste: ", "Data: " + new Random().nextInt(constants.rangeRandom));
+                    //Log.println(Log.VERBOSE, "Teste: ", "Data: " + new Random().nextInt(constants.rangeRandom));
+                    //Snackbar.make(view, getString(R.string.msgProductEmpt), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    //Toast.makeText(getContext(), mProdutos.get(position).getNome() + " " + context.getString(R.string.msgProductRemove), Toast.LENGTH_SHORT).show();
+
+                    //Toast.makeText(this, "Button 1", Toast.LENGTH_LONG).show();
+
+                    //shareWhatsApp(getString(R.string.msgCompartilharLst), data);
+                    shareWhatsApp(getString(R.string.msgCompartilharLst), formatSharedMensage());
                     break;
             }
 
@@ -316,6 +337,65 @@ public class MainActivity extends AppCompatActivity {
             //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).commit();
             //fragmentTransaction.replace(R.id.frmLClearOther, new FragSaveProduct((int) item.getTag())).addToBackStack("DashBoardOpcoesLCP").commit();
         }
+    }
+
+    private String formatSharedMensage(){
+        String productList = "*" + getString(R.string.msgLstCompras) + "*\n\n";
+        //String purchasedProductList = "\n*" + getString(R.string.cestaOk) + "*\n\n";
+        String purchasedProductList = "";
+
+        List<DBProduto> produtos = new ProdutoDAO(this).getListProduct(3, -1);
+
+        if (produtos.size() == 0){
+            productList += getString(R.string.listClear);
+            return productList;
+        }
+
+        //List<DBProduto> tempProduto = new ArrayList<>();
+        //List<DBProduto> purchasedProducts = new ArrayList<>();
+
+        //purchasedProducts.add(new DBProduto(-1, -1, getString(R.string.cestaOk), 0, -1, -1));
+
+        //int id, int categoria, String nome, float quantidade, int unidade, int status
+        int     category = -1,
+                position = 0;
+        for (DBProduto temp : produtos){
+            if (temp.getCategoria() != category){
+                category = temp.getCategoria();
+
+                for (int i = position; (i < produtos.size() && category == produtos.get(i).getCategoria()); i++){
+                    if (produtos.get(i).getStatus() == constants.getStatusWait()){
+                        productList += "*-" + constants.getNameCategoryItem(temp.getCategoria()) + "*\n";
+                        break;
+                    }
+                }
+            }
+
+            if (temp.getStatus() != constants.getStatusOff())
+                productList += temp.getNome()+ " - " + temp.getQuantidade()  + " " + constants.getNameUnidade()[temp.getUnidade()] + "\n";
+            else {
+                if (purchasedProductList.equals(""))
+                    purchasedProductList = "\n*" + getString(R.string.cestaOk) + "*\n\n";
+
+                purchasedProductList += "~" + temp.getNome()+ " - " + temp.getQuantidade()  + " " + constants.getNameUnidade()[temp.getUnidade()] + "~\n";
+            }
+            position++;
+        }
+
+        if (!purchasedProductList.equals("")) {
+            productList += purchasedProductList;
+        }
+
+        return productList;
+    }
+
+    private void shareWhatsApp(String title, String data){
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+
+        share.putExtra(Intent.EXTRA_TEXT, data);
+        startActivity(Intent.createChooser(share, title));
     }
 
     /*
@@ -437,6 +517,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void hideSoftKeyboard(View view) {
+        view.clearFocus();
+        InputMethodManager imm =  (InputMethodManager) getBaseContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     public DBProduto getsProduto() {
         return sProduto;
     }
@@ -453,11 +539,11 @@ public class MainActivity extends AppCompatActivity {
         return dbOutStatus;
     }
 
-    public boolean isFlgUpdateTab0() {
-        return flgUpdateTab0;
+    public boolean isFlgUpdateTab1() {
+        return flgUpdateTab1;
     }
 
-    public void setFlgUpdateTab0(boolean flgUpdateTab0) {
-        this.flgUpdateTab0 = flgUpdateTab0;
+    public void setFlgUpdateTab1(boolean flgUpdateTab1) {
+        this.flgUpdateTab1 = flgUpdateTab1;
     }
 }

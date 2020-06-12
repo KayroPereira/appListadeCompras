@@ -1,12 +1,14 @@
 package com.example.applistadecompras;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -151,6 +153,8 @@ public class FragMyList extends Fragment implements Callbacks, OnClickListener{
         produtos = new ProdutoDAO(getContext()).getListProduct(3, -1);
         purchasedProductList = false;
 
+        hideSoftKeyboard(view);
+
         List<DBProduto> tempProduto = new ArrayList<>();
         List<DBProduto> purchasedProducts = new ArrayList<>();
 
@@ -256,7 +260,14 @@ public class FragMyList extends Fragment implements Callbacks, OnClickListener{
             dialog.show();
         }
     }
+
+    public void hideSoftKeyboard(View view) {
+        view.clearFocus();
+        InputMethodManager imm =  (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }
+
 
 /*
 

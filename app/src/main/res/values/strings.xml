@@ -9,6 +9,7 @@
     <string name="clearBasket">Limpar Cesta</string>
     <string name="clearList">Limpar Lista</string>
     <string name="listClear">(Lista vazia)</string>
+    <string name="compartilhar">Compartilhar</string>
 
     <string name="msgCesta">cesta</string>
     <string name="msgLista">lista</string>
@@ -21,6 +22,8 @@
     <string name="msgProductEmpt">Favor inserir o nome do produto</string>
     <string name="msgProductAdd">adicionado a lista</string>
     <string name="msgProductRemove">removido da lista</string>
+    <string name="msgCompartilharLst">Compartilhar Lista</string>
+    <string name="msgLstCompras">Lista de Compras</string>
 
     <string name="saveOk">Produto cadastrado</string>
 </resources>

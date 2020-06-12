@@ -104,8 +104,6 @@ public class DashBoardOpcoesLCP extends Fragment{
                     if (vTemp instanceof TextView) {
                         //((TextView) vTemp).setText(constantsApp.getNameCategoryItem(categoriaItem));
                         //provisório
-                        if (categoriaItem > 0)
-                            ((TextView) vTemp).setText("temp");
 
                         ((TextView) vTemp).setTextColor(getContext().getColor(R.color.colorTab2));
                         vTemp.setTag(categoriaItem);
@@ -114,7 +112,7 @@ public class DashBoardOpcoesLCP extends Fragment{
 
                     if (vTemp instanceof ImageView) {
                         //((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("none_day", "drawable", "com.example.applistadecompras"));
-                        ((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("adicionar", "drawable", getActivity().getPackageName()));
+                        //((ImageView) vTemp).setImageResource(this.getContext().getApplicationContext().getResources().getIdentifier("adicionar", "drawable", getActivity().getPackageName()));
                         vTemp.setTag(categoriaItem);
                         cont++;
                     }

@@ -39,7 +39,7 @@ tools:context=".DashBoardOpcoesLCP">
                     app:layout_constraintHorizontal_bias="0.495"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:srcCompat="@drawable/adicionar" />
+                    app:srcCompat="@drawable/adicionar" />
 
                 <TextView
                     android:id="@+id/tvCtDB_S1"
@@ -50,7 +50,6 @@ tools:context=".DashBoardOpcoesLCP">
                     android:gravity="center_horizontal"
                     android:onClick="ivClickedOpLCP"
                     android:text="@string/cadastrar"
-                    android:textColor="@color/colorFontMain"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +91,6 @@ tools:context=".DashBoardOpcoesLCP">
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.66" />
 
-            <!--
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clCategoriaDB_S2"
             android:layout_width="0dp"
@@ -111,23 +109,25 @@ tools:context=".DashBoardOpcoesLCP">
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/whatsapp" />
 
             <TextView
                 android:id="@+id/tvCtDB_S2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:onClick="ivClickedOpLCP"
                 android:fontFamily="@font/acme"
                 android:gravity="center_horizontal"
-                android:textColor="@android:color/holo_blue_dark"
+                android:onClick="ivClickedOpLCP"
+                android:text="@string/compartilhar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivCtDB_S2" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!--
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clCategoriaDB_S3"
             android:layout_width="0dp"

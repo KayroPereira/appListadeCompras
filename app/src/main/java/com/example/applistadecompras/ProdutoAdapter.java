@@ -75,7 +75,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.ViewHold
         //Produto produtos = mProdutos.get(position);
         DBProduto produtos = mProdutos.get(position);
 
-        viewHolder.setIsRecyclable(false);
+        //viewHolder.setIsRecyclable(false);
 
         /*
         InputMethodManager imm =  (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -84,12 +84,15 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.ViewHold
 
         hideSoftKeyboard(hold.etQuantidade);
 
+        boolean status = produtos.getStatus() == constants.getStatusOn() ? true : false;
+
         //getView(position, hold.itemView, getAdapterPosition());
 
         hold.tvProduto.setText(produtos.getNome());
         hold.tvProduto.setTextSize(16);
         hold.etQuantidade.setText(produtos.getQuantidade()+"");
-        hold.ivSend.setImageResource(context.getApplicationContext().getResources().getIdentifier(produtos.getStatus() == constants.getStatusOn() ? "basket" : "clbasket", "drawable", context.getPackageName()));
+        //hold.ivSend.setImageResource(context.getApplicationContext().getResources().getIdentifier(produtos.getStatus() == constants.getStatusOn() ? "basket" : "clbasket", "drawable", context.getPackageName()));
+        hold.ivSend.setImageResource(context.getApplicationContext().getResources().getIdentifier(status ? "basket" : "clbasket", "drawable", context.getPackageName()));
 
         switch (produtos.getUnidade()){
             case 0:
@@ -105,7 +108,6 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.ViewHold
                 break;
         }
 
-        boolean status = produtos.getStatus() == constants.getStatusOn() ? true : false;
         hold.etQuantidade.setEnabled(status);
         hold.rgUnidade.setEnabled(status);
         hold.rbUn.setEnabled(status);
@@ -248,18 +250,59 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.ViewHold
                         DatabaseReference dbOutStatus = ((MainActivity) context).getDbOutStatus();
                         String value = "";
                         String path = "";
+
+                        DBProduto produtoTemp = new DBProduto();
+
                         if (((MainActivity) context).getPage() == 1){
                             path = constants.getPathMinhaLista();
-                            if (mProdutos.get(position).getStatus() == constants.getStatusOn()) {
-                                value = Float.parseFloat(etQuantidade.getText().toString())+"#"+mProdutos.get(position).getUnidade()+"#"+ constants.getStatusWait();
 
+                            produtoTemp = mProdutos.get(position);
+                            produtoTemp.setQuantidade(Float.parseFloat(etQuantidade.getText().toString()));
+
+                            ((MainActivity) context).setFlgUpdateTab1(false);
+
+                            if (mProdutos.get(position).getStatus() == constants.getStatusOn()) {
+                                //funcionando
+                                /*
+                                value = Float.parseFloat(etQuantidade.getText().toString())+"#"+mProdutos.get(position).getUnidade()+"#"+ constants.getStatusWait();
+                                new ProdutoDAO(context).updateProduto(new DBProduto(-1, mProdutos.get(position).getCategoria(), mProdutos.get(position).getNome(),
+                                        Float.parseFloat(etQuantidade.getText().toString()), mProdutos.get(position).getUnidade(), constants.getStatusWait()), 2);
                                 new CommFirebase().sendDataString(dbOutStatus,path + "/" + mProdutos.get(position).getCategoria() + "/" + mProdutos.get(position).getNome(), value);
                                 Toast.makeText(view.getContext(), mProdutos.get(position).getNome() + " " + context.getString(R.string.msgProductAdd), Toast.LENGTH_SHORT).show();
+                                 */
+                                produtoTemp.setStatus(constants.getStatusWait());
+
+                                value = produtoTemp.getQuantidade()+"#"+produtoTemp.getUnidade()+"#"+ produtoTemp.getStatus();
+                                new ProdutoDAO(context).updateProduto(produtoTemp, 2);
+                                new CommFirebase().sendDataString(dbOutStatus,path + "/" + produtoTemp.getCategoria() + "/" + produtoTemp.getNome(), value);
+                                Toast.makeText(view.getContext(), produtoTemp.getNome() + " " + context.getString(R.string.msgProductAdd), Toast.LENGTH_SHORT).show();
                             }else{
+                                //funcionando
+                                /*
+                                new ProdutoDAO(context).updateProduto(new DBProduto(-1, mProdutos.get(position).getCategoria(), mProdutos.get(position).getNome(),
+                                        Float.parseFloat(etQuantidade.getText().toString()), mProdutos.get(position).getUnidade(), constants.getStatusWait()), 2);
                                 new CommFirebase().deleteItem(dbOutStatus,path + "/" + mProdutos.get(position).getCategoria() + "/" + mProdutos.get(position).getNome());
                                 Toast.makeText(view.getContext(), mProdutos.get(position).getNome() + " " + context.getString(R.string.msgProductRemove), Toast.LENGTH_SHORT).show();
+                                 */
+
+                                produtoTemp.setStatus(constants.getStatusOn());
+                                new ProdutoDAO(context).updateProduto(produtoTemp, 2);
+                                new CommFirebase().deleteItem(dbOutStatus,path + "/" + produtoTemp.getCategoria() + "/" + produtoTemp.getNome());
+                                Toast.makeText(view.getContext(), produtoTemp.getNome() + " " + context.getString(R.string.msgProductRemove), Toast.LENGTH_SHORT).show();
                             }
-                            new CommFirebase().sendDataInt(dbOutStatus, path+constants.getPathFlgMlst(), new Random().nextInt(constants.rangeRandom));
+                            //funcionando
+                            //new CommFirebase().sendDataInt(dbOutStatus, path+constants.getPathFlgMlst(), new Random().nextInt(constants.rangeRandom));
+
+                            //teste para melhorar a eficiencia
+                            mProdutos.set(position, produtoTemp);
+                            updateListProduct(position);
+
+                            //((MainActivity) getActivity()).setsProduto(sProduto);
+                            //((MainActivity) context).setFlgUpdateTab1(false);
+
+                            int firebaseFlag =  new Random().nextInt(constants.rangeRandom);
+                            //new ProdutoDAO(context).updateFlagProduto(constants.getFlgMlst(), firebaseFlag);
+                            new CommFirebase().sendDataInt(dbOutStatus, path+constants.getPathFlgMlst(), firebaseFlag);
                         }
                         break;
                 }
@@ -307,6 +350,13 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.ViewHold
             }
         }
     }
+
+    public void updateListProduct(int position){
+        //produto.set(produto.indexOf(produto), produto);
+        //notifyItemChanged(produto.indexOf(produto));
+        notifyItemChanged(position);
+    }
+
 /*
     public void hideSoftKeyboard() {
         if(view.getCurrentFocus()!=null) {

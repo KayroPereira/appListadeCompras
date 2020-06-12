@@ -18,11 +18,11 @@ public class DBProduto implements Serializable {
 
     public DBProduto(int id, int categoria, String nome, float quantidade, int unidade, int status) {
         this.id = id;
-        Categoria = categoria;
-        Nome = nome;
-        Quantidade = quantidade;
-        Unidade = unidade;
-        Status = status;
+        this.Categoria = categoria;
+        this.Nome = nome;
+        this.Quantidade = quantidade;
+        this.Unidade = unidade;
+        this.Status = status;
     }
 
     public int getId() {

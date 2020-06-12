@@ -144,19 +144,18 @@ public class ProdutoDAO {
         ContentValues cv = new ContentValues();
 
         switch (modo){
-            case 1:
+            case 1:     //Atualiza o status do produto usando o ID
                 cv.put("Status", produto.getStatus());
                 return gw.getDatabase().update(TABLE_PRODUTO, cv, "ID=?", new String[]{produto.getId()+""}) > 0;
 
-            case 2:
+            case 2:     //Atualiza a quantidade, unidade e status usando o nome e a categoria
                 cv.put("Quantidade", produto.getQuantidade());
                 cv.put("Unidade", produto.getUnidade());
                 cv.put("Status", produto.getStatus());
-                return gw.getDatabase().update(TABLE_PRODUTO, cv, "Nome=?", new String[]{produto.getNome()+""}) > 0;
+                return gw.getDatabase().update(TABLE_PRODUTO, cv, "Nome=? and Categoria=?", new String[]{produto.getNome()+"", produto.getCategoria()+""}) > 0;
                 //return gw.getDatabase().update(TABLE_UP_PRODUTO, cv, "ID=?", new String[]{produto.getId()+""}) > 0;
 
-            case 3:
-                //deixa todos os produtos disponíveis na despensa / fora da lista de compras
+            case 3:     //deixa todos os produtos disponíveis na despensa / fora da lista de compras
                 cv.put("Status", constants.getStatusOn());
                 //return gw.getDatabase().update(TABLE_UP_PRODUTO, cv, "", new String[]{}) > 0;
                 return gw.getDatabase().update(TABLE_PRODUTO, cv, "", new String[]{}) > 0;

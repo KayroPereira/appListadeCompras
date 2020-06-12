@@ -1,9 +1,11 @@
 package com.example.applistadecompras;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -19,7 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class FragSaveProduct extends Fragment {
+public class FragSaveProduct extends Fragment implements View.OnClickListener, View.OnFocusChangeListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +31,7 @@ public class FragSaveProduct extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private int categoria;
+    //private int categoria;
 
     /*
     //funcionado
@@ -74,6 +76,10 @@ public class FragSaveProduct extends Fragment {
     private ImageView ivBackFMSP;
     private View viewMain;
 
+    private RadioButton rbUn;
+    private RadioButton rbMl;
+    private RadioButton rbKg;
+
     DBProduto sProduto = new DBProduto();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -95,6 +101,10 @@ public class FragSaveProduct extends Fragment {
         ivSendSQL = (ImageView) viewMain.findViewById(R.id.ivSendSQL);
         ivBackFMSP = (ImageView) viewMain.findViewById(R.id.ivBackFMSP);
 
+        rbUn = (RadioButton) viewMain.findViewById(R.id.rbUn);
+        rbMl = (RadioButton) viewMain.findViewById(R.id.rbMl);
+        rbKg = (RadioButton) viewMain.findViewById(R.id.rbKg);
+
         ConstraintLayout clFSP_1 = (ConstraintLayout) viewMain.findViewById(R.id.clFSP_1);
         clFSP_1.setBackgroundResource(R.drawable.gradient_1);
 
@@ -103,6 +113,12 @@ public class FragSaveProduct extends Fragment {
 
         //tvCategoria.setText(new ConstantsApp().getNameCategoryItem(categoria));
         tvCategoria.setText("Cadastro Produto");
+
+        clFSP_1.setOnClickListener(this);
+        viewMain.setOnClickListener(this);
+        rbUn.setOnClickListener(this);
+        rbMl.setOnClickListener(this);
+        rbKg.setOnClickListener(this);
 
         ivBackFMSP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +130,7 @@ public class FragSaveProduct extends Fragment {
                 //fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardCategoria()).commit();
 
                 fragmentTransaction.replace(R.id.frmLClearOther, new DashBoardOpcoesLCP()).commit();
+                hideSoftKeyboard(ivBackFMSP);
             }
         });
 
@@ -131,6 +148,8 @@ public class FragSaveProduct extends Fragment {
                 View radioButton = rgUnidade.findViewById(rgUnidade.getCheckedRadioButtonId());
                 //int radioId = rgUnidade.indexOfChild(radioButton);
                 RadioButton rbCheck = (RadioButton) rgUnidade.getChildAt(0);
+
+                hideSoftKeyboard(ivBackFMSP);
 
                 if (!etProduto.getText().toString().isEmpty()) {
                     //pegando os valores
@@ -185,8 +204,25 @@ public class FragSaveProduct extends Fragment {
                 //}
             }
         });
-
-
         return viewMain;
+    }
+
+    public void hideSoftKeyboard(View view) {
+        view.clearFocus();
+        InputMethodManager imm =  (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+
+
+        hideSoftKeyboard(ivBackFMSP);
+    }
+
+    @Override
+    public void onFocusChange(View view, boolean b) {
+        hideSoftKeyboard(ivBackFMSP);
     }
 }
